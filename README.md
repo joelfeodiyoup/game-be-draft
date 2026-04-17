@@ -10,3 +10,10 @@ slightly optional:
 - vector database - I can't yet think of a good use-case.
 - redis pub/sub for real-time features?
 - caching strategies?
+
+ORMS:
+- postgresql - Prisma
+- mongodb - mongoose
+- redis - no ORM. ioredis.
+- clickhouse - no ORM (it's OLAP) - @clickhouse/client
+- IndexedDB - dexie.js
