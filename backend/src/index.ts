@@ -1,10 +1,23 @@
-import { login, register } from "./domains/auth/auth.service";
+import { Hono } from "hono";
+import { cors } from 'hono/cors';
+import { authRouter } from "./domains/auth/auth.controller";
+import { serve } from "@hono/node-server";
 
-async function main() {
-    // register({username: 'joel', 'password': 'mypassword'})
+const app = new Hono();
 
-    const session = await login({username: 'joel', password: 'mypassword'});
-    console.log(session);
-}
+app.use('/*', cors({
+    origin: ['http://localhost:5174', 'http://localhost:3000'],
+    credentials: true,
+}))
 
-main().catch(console.error);
+app.route('/auth', authRouter);
+
+app.get('/', (c) => c.text('Game API running'));
+
+const port = 3000;
+console.log(`Server running on http://localhost:${port}`);
+
+serve({
+    fetch: app.fetch,
+    port
+});
