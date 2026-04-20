@@ -1,242 +1,168 @@
-# Proposed Directory Structure
+# Directory Structure
+
+Domain-driven architecture organized by **business capabilities**, not technologies.
+
+## Core Domains
+- **Player** - Accounts, profiles, achievements
+- **Auth** - Login, sessions, authentication
+- **Game** - Save/load game state, inventory
+- **Analytics** - Events, leaderboards, metrics
 
 ## Backend Structure
 
 ```
 backend/
-├── package.json
-├── tsconfig.json
-├── .env.example
-│
-├── prisma/                           # Prisma setup
-│   ├── schema.prisma                 # PostgreSQL schema definition
-│   ├── migrations/                   # Auto-generated migrations
-│   └── seed.ts                       # Optional: seed data
-│
 ├── src/
-│   ├── server.ts                     # App entry point
+│   ├── server.ts
 │   │
-│   ├── config/
-│   │   ├── env.ts                    # Env validation (zod?)
-│   │   ├── prisma.ts                 # Prisma client singleton
-│   │   ├── mongoose.ts               # Mongoose connection
-│   │   ├── redis.ts                  # Redis client + connection pooling
-│   │   └── clickhouse.ts             # ClickHouse client
-│   │
-│   ├── database/
-│   │   ├── prisma/
-│   │   │   ├── client.ts             # Export typed Prisma client
-│   │   │   └── repositories/         # Repository pattern for PostgreSQL
-│   │   │       ├── player.repository.ts
-│   │   │       ├── session.repository.ts
-│   │   │       └── achievement.repository.ts
+│   ├── databases/                    # Infrastructure: DB clients & schemas
+│   │   ├── postgres/
+│   │   │   ├── prisma.client.ts
+│   │   │   ├── schema.prisma
+│   │   │   ├── migrations/
+│   │   │   └── seed.ts
 │   │   │
-│   │   ├── mongoose/
-│   │   │   ├── schemas/              # Mongoose schemas
+│   │   ├── mongodb/
+│   │   │   ├── mongoose.client.ts
+│   │   │   ├── schemas/
 │   │   │   │   ├── gameState.schema.ts
-│   │   │   │   └── playerInventory.schema.ts
-│   │   │   └── repositories/         # Repository pattern for MongoDB
-│   │   │       └── gameState.repository.ts
+│   │   │   │   └── inventory.schema.ts
+│   │   │   └── seed.ts
 │   │   │
 │   │   ├── redis/
-│   │   │   ├── client.ts             # Redis connection wrapper
-│   │   │   └── repositories/
-│   │   │       ├── session.repository.ts
-│   │   │       └── cache.repository.ts
+│   │   │   └── redis.client.ts
 │   │   │
 │   │   └── clickhouse/
-│   │       ├── client.ts             # ClickHouse connection
-│   │       ├── schemas/              # Table definitions (as SQL or TS)
-│   │       │   └── playerEvents.sql
+│   │       ├── clickhouse.client.ts
+│   │       └── schemas/
+│   │           └── player_events.sql
+│   │
+│   ├── domains/                      # Business logic by domain
+│   │   ├── player/
+│   │   │   ├── player.service.ts
+│   │   │   ├── player.routes.ts
+│   │   │   ├── player.types.ts
+│   │   │   └── repositories/
+│   │   │       └── player.repository.ts
+│   │   │
+│   │   ├── auth/
+│   │   │   ├── auth.service.ts
+│   │   │   ├── auth.routes.ts
+│   │   │   ├── auth.middleware.ts
+│   │   │   └── repositories/
+│   │   │       └── session.repository.ts
+│   │   │
+│   │   ├── game/
+│   │   │   ├── gameState.service.ts
+│   │   │   ├── gameState.routes.ts
+│   │   │   ├── gameState.types.ts
+│   │   │   └── repositories/
+│   │   │       ├── gameState.repository.ts
+│   │   │       └── inventory.repository.ts
+│   │   │
+│   │   └── analytics/
+│   │       ├── analytics.service.ts
+│   │       ├── analytics.routes.ts
 │   │       └── repositories/
-│   │           └── analytics.repository.ts
+│   │           ├── events.repository.ts
+│   │           └── leaderboard.repository.ts
 │   │
-│   ├── models/                       # TypeScript types/interfaces
-│   │   ├── player.types.ts           # Shared types across services
-│   │   ├── gameState.types.ts
-│   │   ├── session.types.ts
-│   │   └── analytics.types.ts
+│   ├── shared/
+│   │   ├── middleware/
+│   │   │   ├── errorHandler.ts
+│   │   │   └── requestLogger.ts
+│   │   ├── errors.ts
+│   │   ├── logger.ts
+│   │   └── env.ts
 │   │
-│   ├── services/                     # Business logic layer
-│   │   ├── player.service.ts         # Uses Prisma repo
-│   │   ├── gameState.service.ts      # Uses Mongoose repo
-│   │   ├── session.service.ts        # Uses Redis repo
-│   │   ├── cache.service.ts          # Redis caching strategies
-│   │   └── analytics.service.ts      # Uses ClickHouse repo
-│   │
-│   ├── routes/                       # API endpoints
-│   │   ├── index.ts                  # Route aggregator
-│   │   ├── auth.routes.ts
-│   │   ├── player.routes.ts
-│   │   ├── game.routes.ts
-│   │   └── analytics.routes.ts
-│   │
-│   ├── middleware/
-│   │   ├── auth.middleware.ts        # Session validation via Redis
-│   │   ├── errorHandler.middleware.ts
-│   │   └── requestLogger.middleware.ts
-│   │
-│   └── utils/
-│       ├── errors.ts                 # Custom error classes
-│       ├── logger.ts                 # Winston/Pino logger
-│       └── validation.ts             # Zod schemas for API validation
+│   └── routes.ts                     # Aggregate all domain routes
 │
 └── scripts/
-    ├── init-clickhouse.sql           # ClickHouse table creation
-    └── seed-dev-data.ts              # Dev data seeding script
+    └── seed-dev-data.ts
 ```
 
-## Frontend Structure (with Dexie)
+## Frontend Structure
 
 ```
 frontend/
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-├── index.html
-│
 └── src/
-    ├── main.ts                       # Entry point
+    ├── main.ts
     │
-    ├── db/                           # IndexedDB with Dexie
-    │   ├── schema.ts                 # Dexie database schema
-    │   ├── client.ts                 # Dexie instance singleton
+    ├── db/                           # IndexedDB (Dexie)
+    │   ├── schema.ts
+    │   ├── client.ts
     │   └── repositories/
     │       ├── localGameState.repository.ts
-    │       └── offlineQueue.repository.ts  # Optional: sync queue
+    │       └── offlineQueue.repository.ts
     │
-    ├── api/
-    │   ├── client.ts                 # Axios/fetch wrapper
+    ├── api/                          # Backend API calls
+    │   ├── client.ts
     │   ├── auth.api.ts
     │   ├── player.api.ts
-    │   ├── game.api.ts
-    │   └── analytics.api.ts
+    │   └── game.api.ts
     │
-    ├── game/
-    │   ├── gameLoop.ts               # Main game logic
-    │   ├── renderer.ts               # Canvas/WebGL rendering
-    │   ├── input.ts                  # Keyboard/mouse handling
-    │   └── autoSave.ts               # Auto-save orchestrator
+    ├── game/                         # Game engine
+    │   ├── gameLoop.ts
+    │   ├── renderer.ts
+    │   ├── input.ts
+    │   └── autoSave.ts
     │
-    ├── services/
-    │   ├── syncService.ts            # Sync IndexedDB ↔ Backend
-    │   └── offlineService.ts         # Handle offline state
-    │
-    ├── types/
-    │   └── game.types.ts             # Shared types with backend
-    │
-    └── utils/
-        └── logger.ts
+    └── services/
+        ├── syncService.ts            # Sync IndexedDB ↔ Backend
+        └── offlineService.ts
 ```
 
-## Key Structural Decisions
+## Architecture Principles
 
-### 1. Repository Pattern Per Database
-Each database gets its own `repositories/` folder because:
-- **Prisma repos** will have typed queries using the Prisma client
-- **Mongoose repos** will use Mongoose models
-- **Redis repos** will have raw ioredis commands
-- **ClickHouse repos** will construct SQL queries
-
-### 2. Separation of Concerns
+### Separation of Concerns
 ```
-Repository → Service → Route
-```
-- **Repositories**: Pure DB operations (CRUD)
-- **Services**: Business logic (e.g., "save game state" might update MongoDB + invalidate Redis + log to ClickHouse)
-- **Routes**: HTTP handling, validation, response formatting
-
-### 3. Config vs Database Folders
-- `config/`: Connection setup and client initialization
-- `database/`: All DB-specific code (schemas, repos, migrations)
-
-### 4. Error Handling Strategy
-Create custom error classes in `utils/errors.ts`:
-```typescript
-class DatabaseError extends Error { ... }
-class PrismaError extends DatabaseError { ... }
-class MongooseError extends DatabaseError { ... }
-class RedisError extends DatabaseError { ... }
-class ClickHouseError extends DatabaseError { ... }
+databases/    → Connection clients, schemas, migrations
+domains/      → Business logic, grouped by capability
+  routes/     → HTTP endpoints, validation
+  services/   → Business logic, orchestration
+  repositories/ → Data access queries
 ```
 
-Then catch and transform in `middleware/errorHandler.middleware.ts`.
+### Database Choices by Domain
 
-### 5. Type Sharing
-Since Prisma generates types, you can:
-- Export Prisma types from `database/prisma/client.ts`
-- Create custom types in `models/` that compose or extend generated types
-- Share these types between services
+| Domain | Database | Why |
+|--------|----------|-----|
+| Player | PostgreSQL | Relational, ACID guarantees |
+| Game State | MongoDB | Flexible nested documents |
+| Auth Sessions | Redis | Fast in-memory, TTL support |
+| Analytics | ClickHouse | Time-series aggregations |
 
-## Data Flow Philosophy
+### Repository Pattern
+- Repositories import clients from `databases/`
+- Multiple repos can access the same database for different use cases
+- Example: `player.repository.ts` (CRUD) and `player.analytics.repository.ts` (aggregations) both use PostgreSQL
 
-**Write Path:**
-1. Player plays game → Local auto-save to IndexedDB (every few seconds)
-2. Player hits "Save to Cloud" → POST to backend
-3. Backend saves:
-   - Game state → MongoDB (flexible, denormalized)
-   - Update session timestamp → PostgreSQL
-   - Clear cache → Redis (invalidate)
-   - Log analytics event → ClickHouse
+## Data Flow Examples
 
-**Read Path:**
-1. Player logs in → Create session in Redis
-2. Check Redis cache for recent game state
-3. If miss: fetch from MongoDB, cache in Redis (TTL: 5-10 min)
-4. Analytics dashboard hits separate endpoint → Query ClickHouse aggregates
+**Game Save:**
+1. Client auto-saves to IndexedDB (offline-first)
+2. "Save to Cloud" → POST to backend
+3. `gameState.service.ts` orchestrates:
+   - Save to MongoDB
+   - Invalidate Redis cache
+   - Log event to ClickHouse
 
-## API Endpoints Example
-
-```
-POST   /api/auth/login           → Create Redis session
-POST   /api/auth/logout          → Delete Redis session
-
-GET    /api/player/:id           → PostgreSQL (profile, stats)
-PATCH  /api/player/:id           → PostgreSQL (update achievements)
-
-GET    /api/game/state/:playerId → MongoDB (with Redis cache)
-POST   /api/game/state           → MongoDB + invalidate Redis
-POST   /api/game/autosave        → MongoDB only (frequent, uncached)
-
-GET    /api/analytics/leaderboard     → ClickHouse (aggregated)
-GET    /api/analytics/player/:id/history → ClickHouse (time series)
-```
+**Authentication:**
+1. Login validates credentials (PostgreSQL)
+2. Create session in Redis
+3. Subsequent requests validate token via `auth.middleware.ts` (Redis)
 
 ## Tech Stack
 
 **Backend:**
-- **Framework**: Express (simple) or Fastify (fast + good TypeScript support)
-- **PostgreSQL client**: Prisma
-- **MongoDB client**: Mongoose
-- **Redis client**: ioredis
-- **ClickHouse client**: @clickhouse/client
+- Express/Fastify
+- Prisma (PostgreSQL)
+- Mongoose (MongoDB)
+- ioredis (Redis)
+- @clickhouse/client
+- Zod (validation)
 
 **Frontend:**
-- **Build tool**: Vite
-- **Framework**: Vanilla TS or React/Vue
-- **IndexedDB**: Dexie.js
-
-## Architecture Trade-offs
-
-**Pros:**
-- Clear separation by database type
-- Easy to find Prisma migrations vs Mongoose schemas
-- Repository pattern makes testing easier (mock the repo, not the ORM)
-- Services can orchestrate multiple databases cleanly
-
-**Cons:**
-- More boilerplate upfront
-- Might feel heavy for a small demo (but showcases architectural skills)
-
-**Alternative (Simpler):**
-If less nesting is preferred, flatten repositories:
-```
-src/
-├── repositories/
-│   ├── player.repository.ts          # (Prisma)
-│   ├── gameState.repository.ts       # (Mongoose)
-│   ├── session.repository.ts         # (Redis)
-│   └── analytics.repository.ts       # (ClickHouse)
-```
-
-But this loses the clear "database territory" boundaries.
+- Vite
+- TypeScript
+- Dexie.js (IndexedDB)
