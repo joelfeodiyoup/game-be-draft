@@ -1,4 +1,5 @@
 import { AuthenticationContainer } from "./components/authentication/AuthenticationContainer";
+import { Games } from "./components/games/Games";
 function App() {
 
   
@@ -7,6 +8,7 @@ function App() {
     <>
       front end
       <AuthenticationContainer />
+      <Games />
     </>
   )
 }

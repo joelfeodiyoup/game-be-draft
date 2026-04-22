@@ -20,14 +20,18 @@
     "db:migrate:reset": "prisma migrate reset",
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
+    "db:seed:test-prod-block": "cross-env NODE_ENV=production npm run db:seed",
     "db:generate": "prisma generate",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "docker:logs": "docker-compose logs -f"
+    "docker:logs": "docker-compose logs -f",
+    "db:studio:mongo": "open http://localhost:8081"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/mongodb": "^4.0.6",
     "@types/node": "^20.11.0",
+    "cross-env": "^10.1.0",
     "prisma": "^5.9.0",
     "prisma-erd-generator": "^2.4.2",
     "tsx": "^4.21.0",
@@ -37,6 +41,7 @@
     "@hono/node-server": "^1.19.14",
     "@prisma/client": "^5.9.0",
     "bcrypt": "^6.0.0",
-    "hono": "^4.12.14"
+    "hono": "^4.12.14",
+    "mongodb": "^7.2.0"
   }
 }

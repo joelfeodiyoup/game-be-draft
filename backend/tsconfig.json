@@ -9,7 +9,13 @@
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
       "resolveJsonModule": true,
-      "moduleResolution": "node"
+      "moduleResolution": "node",
+      "baseUrl": "./src",
+      "paths": {
+        "@/utils/*": ["utils/*"],
+        "@/domains/*": ["domains/*"],
+        "@/databases/*": ["databases/*"]
+      }
     },
     "include": ["src/**/*", "prisma/**/*"],
     "exclude": ["node_modules", "dist"]

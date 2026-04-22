@@ -7,4 +7,9 @@ export const urls = {
     login: `${baseUrl}/auth/login`,
     createAccount: `${baseUrl}/auth/register`,
     logout: `${baseUrl}/auth/logout`,
+
+    getGames: `${baseUrl}/games`,
+    getScenarios: ({gameId}: {gameId: string}) => `${baseUrl}/games/${gameId}/scenarios`,
+
+    startNewScenario: ({gameId, scenarioId}: {gameId: string, scenarioId: string}) => `${baseUrl}/games/${gameId}/scenarios/${scenarioId}/start-new`
 }
