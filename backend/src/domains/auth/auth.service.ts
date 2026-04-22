@@ -2,8 +2,8 @@
 
 import { AuthSession, LoginCredentials } from "./auth.types";
 import { compareToHash, hash } from "./auth.utils";
-import { playerRepository } from "./repositories/player.repository";
-import { sessionRepository } from "./repositories/session.repository";
+import { playerRepository } from "./../players/repositories/player.repository";
+import { authSessionRepository } from "./repositories/auth-session.repository";
 
 /** create new player with hashed password */
 export async function register(credentials: LoginCredentials) {
@@ -28,7 +28,7 @@ export async function login(credentials: LoginCredentials) {
     if (!passwordMatches) { return }
     // if not, return some error, otherwise...
     // create new 'session' in table
-    const session = await sessionRepository.create({
+    const session = await authSessionRepository.create({
         player: { connect: {id: player.id }},
         expires_at: new Date(Date.now() + 1000 * 60 * 60 * 1)
     })
@@ -41,7 +41,7 @@ export async function logout({sessionId}: Pick<AuthSession, 'sessionId'>) {
     // silently catch 'sessionId not found'.
 
     // delete the session
-    const result = await sessionRepository.delete({id: sessionId})
+    const result = await authSessionRepository.delete({id: sessionId})
     // return result
     return result;
 }
@@ -51,7 +51,7 @@ export async function validateSession({sessionId}: Pick<AuthSession, 'sessionId'
     // catch 'sessionId not found'
 
     // search Sessions by session Id
-    const session = await sessionRepository.findById({id: sessionId});
+    const session = await authSessionRepository.findById({id: sessionId});
     if (!session) { return }
     // check if session is valid
     if (session.expires_at.getMilliseconds() < Date.now()) {

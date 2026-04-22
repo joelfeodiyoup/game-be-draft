@@ -25,9 +25,11 @@ model Player {
   created_at    DateTime  @default(now()) @db.Timestamptz
   updated_at    DateTime  @updatedAt @db.Timestamptz
   saves    ScenarioSave[]
-  session       Session[]
+  auth_session       AuthSession[]
   ratings       Rating[]
   scenarioProgress PlayerProgress[]
+
+  game_sessions GameSession[]
 }
 
 model Game {
@@ -36,6 +38,25 @@ model Game {
   description String @db.Text
   scenarios Scenario[]
   created_at DateTime @default(now()) @db.Timestamptz
+
+  game_sessions GameSession[]
+}
+
+model GameSession {
+  id String @id @default(uuid()) @db.Uuid
+  created_at DateTime @default (now()) @db.Timestamptz
+  end_time DateTime?
+
+  game_id String @db.Uuid
+  game Game @relation(fields: [game_id], references: [id], onDelete: Cascade)
+
+  player_id String @db.Uuid
+  player Player @relation(fields: [player_id], references: [id], onDelete: Cascade)
+
+  @@index([player_id])
+  @@index([game_id])
+  @@index([created_at, game_id])
+  @@index([end_time])
 }
 
 model ScenarioSave {
@@ -95,7 +116,7 @@ model Rating {
   @@index([scenario_id])
 }
 
-model Session {
+model AuthSession {
   id         String   @id @default(uuid()) @db.Uuid
   player_id  String   @db.Uuid
   player     Player   @relation(fields: [player_id], references: [id], onDelete: Cascade)
