@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { connectMongo } from "../../../databases/mongodb/db"
+import { connectMongo } from "../databases/mongodb/db"
 
 const collectionName = 'game_saves';
 

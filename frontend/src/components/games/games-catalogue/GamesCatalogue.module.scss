@@ -1,0 +1,46 @@
+.catalogue {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.game {
+    padding: 1rem;
+    background: var(--catalogue-item-bg);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background: var(--catalogue-item-bg-hover);
+    }
+
+    &.selected {
+        background: var(--catalogue-item-bg-selected);
+    }
+}
+
+.scenarios {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.scenario {
+    padding: 0.75rem;
+    background: var(--catalogue-nested-bg);
+    border: 1px solid var(--catalogue-nested-border);
+    border-radius: 0.375rem;
+    font-size: 0.9rem;
+
+    &:hover {
+        background: var(--catalogue-nested-bg-hover);
+        border-color: var(--catalogue-nested-border-hover);
+    }
+}

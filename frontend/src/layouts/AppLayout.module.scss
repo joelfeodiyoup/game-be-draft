@@ -1,0 +1,33 @@
+.layout {
+    display: grid;
+    grid-template-columns: 20ch 1fr 20ch;
+    gap: 1rem;
+
+    @mixin shared-panel-styles {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+    }
+    .header {
+        grid-column: 1 / -1;
+        @include shared-panel-styles();
+    }
+    .error {
+        grid-column: 1 / -1;
+        background-color: red;
+        color: black;
+        font-weight: bold;
+        margin-top: -1rem;
+    }
+
+    .left {
+        @include shared-panel-styles();
+    }
+
+    .main {
+        @include shared-panel-styles();
+    }
+
+    .right {
+        @include shared-panel-styles()
+    }
+}

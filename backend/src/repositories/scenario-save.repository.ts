@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import prisma from '../../../databases/postgres/db';
+import prisma from '../databases/postgres/db';
 
 export const scenarioSaveRepository = {
     async create({stateId, playerId, scenarioId}: {stateId: string, playerId: string, scenarioId: string}) {

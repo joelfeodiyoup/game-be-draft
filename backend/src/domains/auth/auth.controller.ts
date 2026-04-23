@@ -19,7 +19,7 @@ authRouter.post('/login', async (c) => {
     setCookie(c, 'sessionId', session.id, {httpOnly: true});
     setCookie(c, 'isLoggedIn', 'true', {httpOnly: false});
 
-    return c.json(session);
+    return c.json('success');
 });
 
 authRouter.post('/logout', async c => {

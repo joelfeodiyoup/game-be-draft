@@ -1,4 +1,4 @@
-import prisma from '../../../databases/postgres/db';
+import prisma from '../databases/postgres/db';
 import { Prisma } from '@prisma/client';
 
 export const playerRepository = {

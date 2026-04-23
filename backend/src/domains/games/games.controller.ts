@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
-import { getGames, getScenarios, startNewGame } from './games.service';
 import { getCookie } from 'hono/cookie';
+import { getGames, getScenarios } from './game-catalog.service';
+import { startNewGame } from './game-session.service';
 
 export const gamesRouter = new Hono();
 

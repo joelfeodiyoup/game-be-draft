@@ -8,6 +8,6 @@ export const transportTycoonScenarios: (Pick<Prisma.ScenarioCreateInput, 'title'
         title: 'no money', description: 'In this scenario you start with no money', scenarioState: { money: 0}
     },
     {
-        title: 'futuristic', description: 'Start in the distant future', scenarioState: { year: 3000, money: '10 billion dollars'}
+        title: 'futuristic', description: 'Start in the distant future', scenarioState: { year: 3000, agatasThing: 'hello from agata', money: '10 billion dollars'}
     }
 ]

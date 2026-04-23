@@ -2,8 +2,8 @@
 
 import { AuthSession, LoginCredentials } from "./auth.types";
 import { compareToHash, hash } from "./auth.utils";
-import { playerRepository } from "./../players/repositories/player.repository";
-import { authSessionRepository } from "./repositories/auth-session.repository";
+import { playerRepository } from "../../repositories/player.repository";
+import { authSessionRepository } from "../../repositories/auth-session.repository";
 
 /** create new player with hashed password */
 export async function register(credentials: LoginCredentials) {

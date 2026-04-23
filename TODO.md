@@ -14,24 +14,24 @@
 
 ### 22.04.2026
 
-(today)
-
-## today
 - ~~add seeding for 'games', and 'scenarios' so I can start~~
 - ~~add mongo db~~
 - ~~add mongo gui~~
 - ~~add listing of games and scenarios~~
 - ~~implement the mongodb client~~
 - ~~figure out what needs to be done to hook up mongodb with postgres~~
+- ~~login endpoint returns the sessionId object. It shouldn't, because that includes the sessionId~~
+
+## today
 - figure out how I could have authentication on separate endpoints
 - figure out hono middleware
+- add service to save game
+- make ui look nice
 
 ## future
 
 - add proper error catching for auth login etc.
 - auth middleware for every controller endpoint
-- add service to save game
-- data seeding
 - integration tests
 - add rate limiting
 - rate limit login

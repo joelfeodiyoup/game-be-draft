@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { connectMongo } from "../../../databases/mongodb/db"
+import { connectMongo } from "../databases/mongodb/db"
 import { disallowInProduction } from "@/utils/environment-guards";
 
 const collectionName = 'scenario_state';

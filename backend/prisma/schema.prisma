@@ -26,7 +26,7 @@ model Player {
   updated_at    DateTime  @updatedAt @db.Timestamptz
   saves    ScenarioSave[]
   auth_session       AuthSession[]
-  ratings       Rating[]
+  game_ratings       GameRating[]
   scenarioProgress PlayerProgress[]
 
   game_sessions GameSession[]
@@ -40,6 +40,7 @@ model Game {
   created_at DateTime @default(now()) @db.Timestamptz
 
   game_sessions GameSession[]
+  game_ratings GameRating[]
 }
 
 model GameSession {
@@ -81,7 +82,6 @@ model Scenario {
   title       String   @db.VarChar(200)
   description String   @db.Text // unlimited length for detailed descriptions
   created_at  DateTime @default(now()) @db.Timestamptz
-  ratings     Rating[]
   saves ScenarioSave[]
 
   /// this references an index in the mongodb table holding the scenario state
@@ -104,16 +104,16 @@ model PlayerProgress {
   @@id([player_id, scenario_id])
 }
 
-model Rating {
+model GameRating {
   player_id   String   @db.Uuid
   player      Player   @relation(fields: [player_id], references: [id], onDelete: Cascade)
-  scenario_id String   @db.Uuid
-  scenario    Scenario @relation(fields: [scenario_id], references: [id], onDelete: Cascade)
+  game_id String   @db.Uuid
+  game    Game @relation(fields: [game_id], references: [id], onDelete: Cascade)
   rating      Int      @db.SmallInt // 2 bytes, range -32768 to 32767
   created_at  DateTime @default(now()) @db.Timestamptz
 
-  @@id([player_id, scenario_id])
-  @@index([scenario_id])
+  @@id([player_id, game_id])
+  @@index([game_id])
 }
 
 model AuthSession {

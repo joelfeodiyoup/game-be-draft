@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import prisma from '../../../databases/postgres/db';
+import prisma from '../databases/postgres/db';
 import { disallowInProduction } from "@/utils/environment-guards";
 
 export const scenarioRepository = {

@@ -14,7 +14,8 @@
       "paths": {
         "@/utils/*": ["utils/*"],
         "@/domains/*": ["domains/*"],
-        "@/databases/*": ["databases/*"]
+        "@/databases/*": ["databases/*"],
+        "@/repositories/*": ["repositories/*"]
       }
     },
     "include": ["src/**/*", "prisma/**/*"],

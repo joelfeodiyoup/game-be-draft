@@ -1,6 +1,6 @@
 import { disallowInProduction } from "@/utils/environment-guards";
-import { scenarioStateRepository } from "./repositories/scenario-state.repository";
-import { scenarioRepository } from "./repositories/scenario.repository";
+import { scenarioStateRepository } from "../../repositories/scenario-state.repository";
+import { scenarioRepository } from "../../repositories/scenario.repository";
 
 export async function clearAllScenarios() {
     disallowInProduction();
