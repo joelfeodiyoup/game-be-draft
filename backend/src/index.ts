@@ -5,6 +5,7 @@ import { serve } from "@hono/node-server";
 import { connectMongo } from './databases/mongodb/db';
 import { gamesRouter } from "./domains/games/games.controller";
 
+// app.
 const app = new Hono();
 
 app.use('/*', cors({
