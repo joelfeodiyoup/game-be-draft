@@ -1,11 +1,12 @@
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useErrorContext } from "@/contexts/ErrorContext";
 import { urls, defaultFetchOptions } from "@/data/fetchOptions";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useAuthentication = () => {
     const { setIsLoggedIn } = useAuthContext();
     const { setErrorMessage } = useErrorContext();
+    const queryClient = useQueryClient();
 
     const logoutMutation = useMutation({
         mutationFn: () => fetch(urls.logout, {
@@ -13,7 +14,10 @@ export const useAuthentication = () => {
             method: 'POST',
             body: JSON.stringify({})
         }),
-        onSuccess: () => setIsLoggedIn(false),
+        onSuccess: () => {
+            setIsLoggedIn(false);
+            queryClient.clear();
+        },
         onError: () => {
             setErrorMessage('error while logging out');
         }

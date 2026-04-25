@@ -1,19 +1,11 @@
-import type { Game, Scenario } from "@backend/types";
+import type { Game } from "@backend/types";
 import { useGamesCatalogue } from "./useGamesCatalogue";
 import styles from './GamesCatalogue.module.scss';
 
 export const GamesCatalogue = () => {
-    const {gamesQuery, scenariosQuery, getIsSelectedGame, handleSelectingGame} = useGamesCatalogue()
-
-    console.log('scenariosQuery:', {
-        data: scenariosQuery.data,
-        isLoading: scenariosQuery.isLoading,
-        isFetching: scenariosQuery.isFetching,
-        isSuccuss: scenariosQuery.isSuccess
-    })
+    const {gamesQuery, getIsSelectedGame, handleSelectingGame} = useGamesCatalogue()
 
     if (gamesQuery.isError) return <div>Error: {gamesQuery.error.message}</div>
-    if (scenariosQuery.isError) return <div>Error: {scenariosQuery.error.message}</div>
 
     return (
         <ul className={styles.catalogue}>
@@ -25,19 +17,6 @@ export const GamesCatalogue = () => {
                     onGameSelect={handleSelectingGame}
                     isSelected={getIsSelectedGame(game)}
                 >
-                    {getIsSelectedGame(game) && (
-                        <ul className={styles.scenarios}>
-                            scenarios:
-                            {scenariosQuery.data?.length === 0 && <p>none</p>}
-                            {(scenariosQuery.data ?? []).map(scenario => (
-                                <ScenarioItem
-                                    className={styles.scenario}
-                                    key={scenario.id}
-                                    scenario={scenario}
-                                />
-                            ))}
-                        </ul>
-                    )}
                 </GameItem>
             ))}
         </ul>
@@ -61,10 +40,3 @@ const GameItem = ({ game, isSelected, onGameSelect, children, className, ...prop
         {isSelected && children}
     </li>
 );
-
-type ScenarioItemProps = React.ComponentPropsWithoutRef<'li'> & {
-    scenario: Scenario;
-};
-const ScenarioItem = ({ scenario, ...props }: ScenarioItemProps) => {
-    return <li {...props}>{scenario.title}</li>
-}

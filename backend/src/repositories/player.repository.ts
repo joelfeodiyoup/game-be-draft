@@ -1,3 +1,4 @@
+import { disallowInProduction } from '@/utils/environment-guards';
 import prisma from '../databases/postgres/db';
 import { Prisma } from '@prisma/client';
 
@@ -7,6 +8,10 @@ export const playerRepository = {
     },
     async findByUsername(whereUsername: Required<Pick<Prisma.PlayerWhereUniqueInput, 'username'>>) {
         return prisma.player.findFirst({where: whereUsername});
-    }
+    },
     // findByUsername, findById, updatePassword, ...
+    async deleteAll() {
+        disallowInProduction();
+        return prisma.player.deleteMany();
+    }
 }

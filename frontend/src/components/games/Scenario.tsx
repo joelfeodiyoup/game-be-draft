@@ -15,7 +15,7 @@ export const Scenario = ({scenarioId, gameId}: {scenarioId: string, gameId: stri
             }
             const game = await response.json();
             console.log(game);
-            setGame({name: game.game.title, scenario: game.scenario.title});
+            setGame(game);
         },
     });
 

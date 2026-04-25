@@ -8,3 +8,5 @@ export interface AuthSession {
     playerId: string;
     expiresAt: Date;
 }
+
+export type AuthRole = 'USER' | 'ADMIN';

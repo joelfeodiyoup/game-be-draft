@@ -13,13 +13,14 @@ authRouter.post('/register', async (c) => {
 
 authRouter.post('/login', async (c) => {
     const body = await c.req.json();
-    const session = await authService.login(body);
-    if (!session) return c.json({ error: 'Invalid credentials'}, 401);
+    const loginResponse = await authService.login(body);
+    if (!loginResponse) return c.json({ error: 'Invalid credentials'}, 401);
     
-    setCookie(c, 'sessionId', session.id, {httpOnly: true});
+    setCookie(c, 'sessionId', loginResponse.session.id, {httpOnly: true});
     setCookie(c, 'isLoggedIn', 'true', {httpOnly: false});
 
-    return c.json('success');
+    // should clean this up higher up, maybe?
+    return c.json({roles: loginResponse.userRoles});
 });
 
 authRouter.post('/logout', async c => {

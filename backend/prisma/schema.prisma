@@ -30,6 +30,22 @@ model Player {
   scenarioProgress PlayerProgress[]
 
   game_sessions GameSession[]
+
+  auth_roles AuthRole[]
+}
+
+model AuthRole {
+  role String @db.VarChar(5)
+
+  player_id String @db.Uuid
+  player Player @relation(fields: [player_id], references: [id], onDelete: Cascade)
+
+  @@id([player_id, role])
+  @@index([player_id])
+
+  // I don't think I really need to search for all admins. But... maybe...
+  // @@index([role])
+
 }
 
 model Game {

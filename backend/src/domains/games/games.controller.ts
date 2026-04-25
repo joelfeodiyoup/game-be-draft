@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { getCookie } from 'hono/cookie';
 import { getGames, getScenarios } from './game-catalog.service';
 import { startNewGame } from './game-session.service';
+import { requireAuth, requireRole } from 'middleware/auth.middleware';
 
 export const gamesRouter = new Hono();
 
@@ -18,7 +19,8 @@ gamesRouter.get('/:id/scenarios', async (c) => {
     return c.json(scenarios ?? []);
 });
 
-gamesRouter.post('/:gameId/scenarios/:scenarioId/start-new', async c => {
+// maybe this is not the best endpoint name.
+gamesRouter.post('/:gameId/scenarios/:scenarioId/start-new', requireAuth, async c => {
     const gameId = c.req.param('gameId');
     const scenarioId = c.req.param('scenarioId');
     const sessionId = await getCookie(c, 'sessionId');
@@ -28,4 +30,8 @@ gamesRouter.post('/:gameId/scenarios/:scenarioId/start-new', async c => {
 
     const newGame = await startNewGame({scenarioId, sessionId})
     return c.json(newGame);
+});
+
+gamesRouter.post('/:gameId/scenarios', requireAuth, requireRole('ADMIN'), async c => {
+    return c.json('scenario created');
 })

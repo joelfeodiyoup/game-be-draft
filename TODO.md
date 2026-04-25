@@ -22,14 +22,20 @@
 - ~~figure out what needs to be done to hook up mongodb with postgres~~
 - ~~login endpoint returns the sessionId object. It shouldn't, because that includes the sessionId~~
 
+### 23.04.2026
+
+- ~~make ui look nice~~
+
 ## today
-- figure out how I could have authentication on separate endpoints
-- figure out hono middleware
-- add service to save game
-- make ui look nice
+
+- rearrange ui to be a bit more simple
+- add game rating
 
 ## future
 
+- figure out how I could have authentication on separate endpoints
+- figure out hono middleware
+- add service to save game
 - add proper error catching for auth login etc.
 - auth middleware for every controller endpoint
 - integration tests

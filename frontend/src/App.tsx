@@ -1,9 +1,9 @@
 import { Authentication } from "./components/authentication/Authentication";
+import { GameDetail } from "./components/games/game-detail/GameDetail";
 import { GamesCatalogue } from "./components/games/games-catalogue/GamesCatalogue";
 import { Title } from "./components/ui/title/Title";
 import { useErrorContext } from "./contexts/ErrorContext";
 import { useGameContext } from "./contexts/GameContext";
-import { GameRuntime } from "./game-runtime/GameLoader";
 import { AppLayout } from "./layouts/AppLayout";
 import { HeaderLayout } from "./layouts/HeaderLayout";
 function App() {
@@ -16,7 +16,7 @@ function App() {
         header={<HeaderLayout title={<Title text="Game Loader" />} authSection={<Authentication />} />}
         error={errorMessage}
         left={<GamesCatalogue />}
-        main={game && <GameRuntime />}
+        main={game && <GameDetail />}
         right={null}
       />
     </>

@@ -11,5 +11,6 @@ export const urls = {
     getGames: `${baseUrl}/games`,
     getScenarios: ({gameId}: {gameId: string}) => `${baseUrl}/games/${gameId}/scenarios`,
 
-    startNewScenario: ({gameId, scenarioId}: {gameId: string, scenarioId: string}) => `${baseUrl}/games/${gameId}/scenarios/${scenarioId}/start-new`
+    startNewScenario: ({gameId, scenarioId}: {gameId: string, scenarioId: string}) => `${baseUrl}/games/${gameId}/scenarios/${scenarioId}/start-new`,
+    createScenario: ({gameId}: {gameId: string}) => `${baseUrl}/games/${gameId}/scenarios`
 }

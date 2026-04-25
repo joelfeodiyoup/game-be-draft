@@ -4,6 +4,9 @@ import { AuthSession, LoginCredentials } from "./auth.types";
 import { compareToHash, hash } from "./auth.utils";
 import { playerRepository } from "../../repositories/player.repository";
 import { authSessionRepository } from "../../repositories/auth-session.repository";
+import { disallowInProduction } from "@/utils/environment-guards";
+import { authRoleRepository } from "@/repositories/auth-role.repository";
+import { assignRoleToUser } from "./auth-role.service";
 
 /** create new player with hashed password */
 export async function register(credentials: LoginCredentials) {
@@ -13,7 +16,10 @@ export async function register(credentials: LoginCredentials) {
     // hash password
     const hashedPassword = hash(credentials.password);
     // create new row in Players table
-    playerRepository.create({ username: credentials.username, password_hash: hashedPassword});
+    const player = await playerRepository.create({ username: credentials.username, password_hash: hashedPassword});
+    await assignRoleToUser({player, role: 'USER'});
+
+    return player;
 }
 
 /** validates credentials, create session */
@@ -22,18 +28,20 @@ export async function login(credentials: LoginCredentials) {
 
     // find user by username in Player table
     const player = await playerRepository.findByUsername({username: credentials.username});
-    if (!player) { return }
+    if (!player) { return null;}
     // check if it matches
     const passwordMatches = compareToHash(credentials.password, player?.password_hash);
-    if (!passwordMatches) { return }
+    if (!passwordMatches) { return null;}
     // if not, return some error, otherwise...
     // create new 'session' in table
     const session = await authSessionRepository.create({
         player: { connect: {id: player.id }},
         expires_at: new Date(Date.now() + 1000 * 60 * 60 * 1)
-    })
+    });
+
+    const userRoles = await authRoleRepository.getPlayerRoles({player_id: session.player_id});
     // return result to user
-    return session;
+    return {session, userRoles};
 }
 
 /** invalidate session */
@@ -69,4 +77,9 @@ function refreshSession(sessionId: Pick<AuthSession, 'sessionId'>) {
     // search Sessions by session id
     // update session with increased 'expires_at'
     // return result
+}
+
+export async function deleteAllUsers() {
+    disallowInProduction();
+    return await playerRepository.deleteAll();
 }
