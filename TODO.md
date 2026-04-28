@@ -41,13 +41,14 @@
 
 ## today
 
+- ~~add authentication thing to documentation endpoint~~
 - implement the worker/orchestrator thing
 
 ## future
 
 - add service to save game
 - show some kind of mock 'game' when they start a game
-- handle game state on FE
+- handle game state on FEx
 - clean up data seeding a bit?
 - fix styling so it just looks minimal and clean
 - auth middleware for every controller endpoint
@@ -64,5 +65,5 @@
 - add query optimization examples - explain analyze, n+1 prevention
 
 - figure out the best way to handle controller endpoints like /country/:countryId/games/:gameId/ratings/:ratingId etc
-- add authentication thing to documentation endpoint
 - add jsonb for ACID and compare the two.
+- reset some queries based on things. E.g. when voting, the game thing should update.

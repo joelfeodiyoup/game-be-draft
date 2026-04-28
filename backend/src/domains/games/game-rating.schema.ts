@@ -18,5 +18,5 @@ export const gameRatingResponseSchema = z.object({
     created_at: z.date(),
     game_id: z.string(),
     player_id: z.string(),
-    rating: z.number,
+    rating: z.number(),
 })

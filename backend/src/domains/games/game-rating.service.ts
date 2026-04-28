@@ -41,6 +41,8 @@ export async function rateGame(args: {
       },
       where: { id: args.gameId },
     });
+
+    return updatedRating;
   });
 }
 

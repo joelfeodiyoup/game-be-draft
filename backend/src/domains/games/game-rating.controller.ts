@@ -7,6 +7,7 @@ import { createResponseType } from "common/api-responses";
 import { requireAuth } from "middleware/auth.middleware";
 import { withPlayer } from "middleware/with-player.middleware";
 import { getGameRatings, rateGame } from "./game-rating.service";
+import { zValidator } from "@hono/zod-validator";
 
 export const gameRatingsRouter = new OpenAPIHono<AppEnv>();
 
@@ -25,11 +26,12 @@ gameRatingsRouter.openapi(
       responses: {
         201: createResponseType({
           schema: gameRatingResponseSchema,
+          // schema: z.object({})
         }),
       },
       middleware: [
           requireAuth,
-        //   zValidator("json", gameRatingSchema),
+          zValidator("json", gameRatingSchema),
           withPlayer
       ],
     }),

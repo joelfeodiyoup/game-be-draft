@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button/Button";
+import { Section } from "@/components/ui/section/Section";
+import { Stack } from "@/components/ui/stack/Stack";
 import { useGameContext } from "@/contexts/GameContext"
 import { defaultFetchOptions, urls } from "@/data/fetchOptions";
 import type { Scenario } from "@backend/types";
@@ -26,6 +28,7 @@ export const GameDetail = () => {
         mutationFn: async () => {
             if (!game) return [];
             const response = await fetch(urls.createScenario({gameId: game.id}), {
+                ...defaultFetchOptions,
                 method: 'POST'
             });
             if (!response.ok) {
@@ -67,18 +70,32 @@ export const GameDetail = () => {
     if (!game) return <div>no game selected</div>
     if (scenariosQuery.isLoading) return <div>Loading...</div>
     return <div>
-        <h2>{game.title}</h2>
-        <div>{game.description}</div>
-        <br />
-        <div>current rating: {Number(game.average_rating)} from {game.rating_count} reviews</div>
-        <h2>Rate game</h2>
-        {[1,2,3,4,5].map(r => <Button key={r} onClick={() => rateGameMutation.mutate({ rating: r})}>{r}</Button>)}
-        <Button onClick={() => createScenarioMutation.mutate()}>create new scenario (admin only)</Button>
-        <ul>
-            {!scenariosQuery.data || scenariosQuery.data.scenarios.length === 0 && <div>no scenarios</div>}
-        {scenariosQuery.data?.scenarios.map(scenario => (
-            <li key={scenario.id}>{scenario.title}<Button onClick={() => startGameSessionMutation.mutate({scenario})}>start</Button></li>
-        ))}
-        </ul>
+        <Stack>
+        <Section title="name">
+            {game.title}
+        </Section>
+        <Section title={"description"}>
+            <p>{game.description}</p>
+        </Section>
+        <Section title={"rating"}>
+            <p>current rating: {Number(game.average_rating)} from {game.rating_count} reviews</p>
+        </Section>
+        <Section title="Rate game">
+            <div>
+                {[1,2,3,4,5].map(r => <Button key={r} onClick={() => rateGameMutation.mutate({ rating: r})}>{r}</Button>)}
+            </div>
+        </Section>
+        <Section title={"create new scenario"}>
+            <Button onClick={() => createScenarioMutation.mutate()}>create (admin only)</Button>
+        </Section>
+        <Section title="scenario list">
+            <ul>
+                {!scenariosQuery.data || scenariosQuery.data.scenarios.length === 0 && <div>no scenarios</div>}
+            {scenariosQuery.data?.scenarios.map(scenario => (
+                <li key={scenario.id}>{scenario.title}<Button onClick={() => startGameSessionMutation.mutate({scenario})}>start</Button></li>
+            ))}
+            </ul>
+        </Section>
+        </Stack>
     </div>
 }

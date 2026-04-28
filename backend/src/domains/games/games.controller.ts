@@ -40,7 +40,7 @@ gamesRouter.openapi(
 gamesRouter.openapi(
   createGamesRoute({
     method: "get",
-    path: "/:gameId/scenarios",
+    path: "/{gameId}/scenarios",
     description: 'get all scenarios for a game',
     request: {
         params: z.object({ gameId: z.string() })
@@ -57,12 +57,29 @@ gamesRouter.openapi(
   }
 );
 
-gamesRouter.post(
-  "/:gameId/scenarios/:scenarioId/start-new",
-  requireAuth,
-  withPlayer,
-  async (c) => {
-    const scenarioId = c.req.param("scenarioId");
+gamesRouter.openapi(
+  createGamesRoute({
+    path: "/{gameId}/scenarios/{scenarioId}/start-new",
+    method: 'post',
+    description: 'start playing a scenario',
+    request: {
+      params: z.object({
+        scenarioId: z.string(),
+        gameId: z.string(),
+      })
+    },
+    responses: {
+      200: createResponseType({
+        schema: z.object({})
+      }),
+    },
+    middleware: [
+      requireAuth,
+      withPlayer,
+    ]
+  }),
+  async c => {
+    const {scenarioId} = c.req.valid('param');
     const sessionId = c.get("sessionId");
 
     const newGame = await gameSessionOrchestrators.startNewGame({ scenarioId, sessionId });
@@ -70,12 +87,30 @@ gamesRouter.post(
   }
 );
 
-
-gamesRouter.post(
-  "/:gameId/scenarios",
-  requireAuth,
-  requireRole("ADMIN"),
-  async (c) => {
+gamesRouter.openapi(
+  createGamesRoute({
+    method: 'post',
+    path: "/{gameId}/scenarios",
+    description: 'create a new scenario (requires admin role)',
+    request: {
+      params: z.object({
+        gameId: z.string()
+      })
+    },
+    security: [{ cookieAuth: ['ADMIN']}],
+    responses: {
+      200: createResponseType({
+        schema: z.object({}),
+      })
+    },
+    middleware: [
+      requireAuth,
+      requireRole("ADMIN"),
+    ]
+  }),
+  async c => {
+    // just a mock implementation for now.
+    // it just demonstrates that the route is allowed by certain roles.
     return c.json("scenario created");
   }
-);
+)

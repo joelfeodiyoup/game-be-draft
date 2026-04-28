@@ -25,19 +25,37 @@ app.get('/', (c) => c.text('Game API running'));
 const tags: { name: RouteTag, description: string}[] = [
     {name: RouteTag.Auth, description: 'Auth endpoints'},
     {name: RouteTag.Games, description: 'Game-related endpoints'},
+    {name: RouteTag.GameRating, description: 'Game ratings'},
 ]
 
-app.doc('/doc.json', {
-    openapi: '3.1.0',
-    info: { version: '1.0.0', title: 'Game API'},
-    servers: [
-        { url: 'http://localhost:3000', description: 'Local server'}
-    ],
-    tags
+const docDefinition = {
+        openapi: '3.1.0',
+        info: { version: '1.0.0', title: 'Game API'},
+        servers: [
+            { url: 'http://localhost:3000', description: 'Local server'}
+        ],
+        tags,
+    };
+
+app.get('/doc.json', (c) => {
+    const doc = app.getOpenAPI31Document(docDefinition);
+    doc.components = {
+        ...doc.components,
+        securitySchemes: {
+                cookieAuth: {
+                    type: 'apiKey',
+                    in: 'cookie',
+                    name: 'sessionId',
+                    description: 'Session ID cookie. Required roles specified per endpoint.',
+                }
+            }
+    };
+
+    return c.json(doc);
 });
 
 app.get('/doc', Scalar({
-    spec: { url: '/doc.json' }
+    spec: { url: '/doc.json' },
 }))
 
 async function main() {
