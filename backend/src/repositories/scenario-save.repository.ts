@@ -1,7 +1,6 @@
 import { Prisma } from '@prisma/client';
-import prisma from '../databases/postgres/db';
 
-export const scenarioSaveRepository = {
+export const createScenarioSaveRepository = (prisma: Prisma.TransactionClient) => ({
     async create({stateId, playerId, scenarioId}: {stateId: string, playerId: string, scenarioId: string}) {
         const data: Prisma.ScenarioSaveCreateInput = {
             mongodb_state_id: stateId,
@@ -27,4 +26,4 @@ export const scenarioSaveRepository = {
 
         return gameSave;
     }
-}
+})

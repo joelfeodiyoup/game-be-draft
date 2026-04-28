@@ -1,17 +1,15 @@
-import { authSessionRepository } from "@/repositories/auth-session.repository";
-import { gameSessionRepository } from "@/repositories/game-session.repository";
+import prisma from "@/databases/postgres/db";
 import { gameStateRepository } from "@/repositories/game-state.repository";
-import { gamesRepository } from "@/repositories/games.repository";
-import { scenarioSaveRepository } from "@/repositories/scenario-save.repository";
-import { scenarioStateRepository } from "@/repositories/scenario-state.repository";
-import { scenarioRepository } from "@/repositories/scenario.repository";
+import { createScenarioSaveRepository } from "@/repositories/scenario-save.repository";
 
 export async function getSavedGame({scenarioSaveId}: {scenarioSaveId: string}) {
-    const savedScenario = await scenarioSaveRepository.getSaveById({ whereId: { id: scenarioSaveId}});
-    if (!savedScenario || !savedScenario.mongodb_state_id) {
-        return null;
-    }
-    const savedData = await gameStateRepository.getById({ id: savedScenario?.mongodb_state_id });
-
-    return { meta: savedScenario, data: savedData };
+    return prisma.$transaction(async tx => {
+        const savedScenario = await createScenarioSaveRepository(tx).getSaveById({ whereId: { id: scenarioSaveId}});
+        if (!savedScenario || !savedScenario.mongodb_state_id) {
+            return null;
+        }
+        const savedData = await gameStateRepository.getById({ id: savedScenario?.mongodb_state_id });
+        
+        return { meta: savedScenario, data: savedData };
+    })
 }

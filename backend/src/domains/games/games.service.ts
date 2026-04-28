@@ -1,5 +1,6 @@
-import { scenarioSaveRepository } from '../../repositories/scenario-save.repository';
+import { createScenarioSaveRepository } from '@/repositories/scenario-save.repository';
 import { gameStateRepository } from '../../repositories/game-state.repository';
+import prisma from '@/databases/postgres/db';
 
 export async function saveGame(
     {gameState, scenarioId, playerId}: {
@@ -7,8 +8,11 @@ export async function saveGame(
         gameState: any,
         playerId: string
     }) {
-    const savedGameState = await gameStateRepository.create({gameState});
-    const savedScenario = await scenarioSaveRepository.create({stateId: savedGameState.id, playerId, scenarioId})
+    return prisma.$transaction(async tx => {
 
-    return savedScenario;
+        const savedGameState = await gameStateRepository.create({gameState});
+        const savedScenario = await createScenarioSaveRepository(tx).create({stateId: savedGameState.id, playerId, scenarioId})
+        
+        return savedScenario;
+    })
 }

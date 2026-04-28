@@ -14,7 +14,6 @@ export const Scenario = ({scenarioId, gameId}: {scenarioId: string, gameId: stri
                 throw new Error('could not start scenario');
             }
             const game = await response.json();
-            console.log(game);
             setGame(game);
         },
     });

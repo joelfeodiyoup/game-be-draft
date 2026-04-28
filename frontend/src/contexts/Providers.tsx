@@ -27,8 +27,6 @@ const QueryClientWithErrorHandling = ({children}: {children: React.ReactNode}) =
         },
         queryCache: new QueryCache({
             onError: (error) => {
-                console.log('hit it?');
-                console.log(error);
                 const apiError = error as unknown as ApiError;
                 if (apiError?.status >= 400 && apiError?.status < 500) {
                     const errorMsg = error?.message || `Error ${apiError?.status}: Request failed`;

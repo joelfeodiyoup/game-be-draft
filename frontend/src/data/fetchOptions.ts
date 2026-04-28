@@ -1,5 +1,8 @@
 export const defaultFetchOptions: RequestInit = {
-    credentials: 'include'
+    credentials: 'include',
+    headers: {
+        "Content-Type": 'application/json'
+    }
 }
 
 const baseUrl = 'http://localhost:3000';
@@ -12,5 +15,7 @@ export const urls = {
     getScenarios: ({gameId}: {gameId: string}) => `${baseUrl}/games/${gameId}/scenarios`,
 
     startNewScenario: ({gameId, scenarioId}: {gameId: string, scenarioId: string}) => `${baseUrl}/games/${gameId}/scenarios/${scenarioId}/start-new`,
-    createScenario: ({gameId}: {gameId: string}) => `${baseUrl}/games/${gameId}/scenarios`
+    createScenario: ({gameId}: {gameId: string}) => `${baseUrl}/games/${gameId}/scenarios`,
+
+    rateGame: ({gameId}: {gameId: string}) => `${baseUrl}/games/${gameId}/ratings`,
 }

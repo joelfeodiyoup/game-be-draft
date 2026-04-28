@@ -1,22 +1,21 @@
 import { disallowInProduction } from '@/utils/environment-guards';
-import prisma from '../databases/postgres/db';
 import { Prisma } from '@prisma/client';
 
-export const authRoleRepository = {
+export const createAuthRoleRepository = (client: Prisma.TransactionClient) => ({
     async create(data: Prisma.AuthRoleCreateInput) {
-        return prisma.authRole.create({data});
+        return client.authRole.create({data});
     },
     async removeRole(where: Pick<Prisma.AuthRoleWhereUniqueInput, 'player_id_role'>) {
-        return prisma.authRole.delete({where});
+        return client.authRole.delete({where});
     },
     async getPlayerRoles(playerId: Pick<Prisma.AuthRoleWhereInput, 'player_id'>) {
-        return prisma.authRole.findMany({where: playerId});
+        return client.authRole.findMany({where: playerId});
     },
     async getPlayerRole(where: Pick<Prisma.AuthRoleWhereInput, 'role' | 'player_id'>) {
-        return prisma.authRole.findFirst({where});
+        return client.authRole.findFirst({where});
     },
     async deleteAll() {
         disallowInProduction();
-        return prisma.authRole.deleteMany();
+        return client.authRole.deleteMany();
     }
-}
+})

@@ -1,8 +1,7 @@
 import { Prisma } from "@prisma/client";
-import prisma from '../databases/postgres/db';
 import { disallowInProduction } from "@/utils/environment-guards";
 
-export const scenarioRepository = {
+export const createScenarioRepository = (prisma: Prisma.TransactionClient) => ({
     async findById({whereScenario}: {whereScenario: Pick<Prisma.ScenarioWhereInput, 'id'>}) {
         return prisma.scenario.findFirst({where: whereScenario});
     },
@@ -17,4 +16,4 @@ export const scenarioRepository = {
 
         return prisma.scenario.deleteMany();
     }
-}
+})

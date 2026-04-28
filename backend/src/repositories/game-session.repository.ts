@@ -1,8 +1,7 @@
 import { Prisma } from "@prisma/client";
-import prisma from "@/databases/postgres/db";
 
-export const gameSessionRepository = {
+export const createGameSessionRepository = (prisma: Prisma.TransactionClient) => ({
     async create({data}: {data: Prisma.GameSessionCreateInput}) {
         return prisma.gameSession.create({data})
     }
-}
+})

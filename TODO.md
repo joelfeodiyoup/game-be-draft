@@ -26,25 +26,43 @@
 
 - ~~make ui look nice~~
 
+### 25.04.2026
+
+- ~~rearrange ui to be a bit more simple~~
+- ~~figure out how I could have authentication on separate endpoints~~
+- ~~figure out hono middleware~~
+- ~~add proper error catching for auth login etc.~~
+
+### 27.04.2026
+
+- ~~add game rating~~
+- ~~add some hono api documentation~~
+- ~~update my repository files to accept an optional client. That way, I can use prisma.$transaction(tx => { /* pass tx client to repository */})~~
+
 ## today
 
-- rearrange ui to be a bit more simple
-- add game rating
+- implement the worker/orchestrator thing
 
 ## future
 
-- figure out how I could have authentication on separate endpoints
-- figure out hono middleware
 - add service to save game
-- add proper error catching for auth login etc.
+- show some kind of mock 'game' when they start a game
+- handle game state on FE
+- clean up data seeding a bit?
+- fix styling so it just looks minimal and clean
 - auth middleware for every controller endpoint
 - integration tests
 - add rate limiting
 - rate limit login
 - rate limit expensive operations
 - set up global tanstack query error handling for 401s
+- add documentation for all the routes
 
 - add redis caching
 - write complex queries - joins, aggregations, transactions
 - implement data seeding
 - add query optimization examples - explain analyze, n+1 prevention
+
+- figure out the best way to handle controller endpoints like /country/:countryId/games/:gameId/ratings/:ratingId etc
+- add authentication thing to documentation endpoint
+- add jsonb for ACID and compare the two.

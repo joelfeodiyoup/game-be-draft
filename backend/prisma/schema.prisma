@@ -55,6 +55,10 @@ model Game {
   scenarios Scenario[]
   created_at DateTime @default(now()) @db.Timestamptz
 
+  // cached rating aggregates
+  average_rating Decimal? @db.Decimal(3,2) // e.g., 4.25 (range 0.00-9.99)
+  rating_count Int @default(0) @db.Integer
+
   game_sessions GameSession[]
   game_ratings GameRating[]
 }

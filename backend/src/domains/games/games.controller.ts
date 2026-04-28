@@ -1,37 +1,81 @@
-import { Hono } from 'hono';
-import { getCookie } from 'hono/cookie';
-import { getGames, getScenarios } from './game-catalog.service';
-import { startNewGame } from './game-session.service';
-import { requireAuth, requireRole } from 'middleware/auth.middleware';
+import { getGames, getScenarios } from "./game-catalog.orchestrator";
+import { gameSessionOrchestrators } from "./game-session.orchestrator";
+import { requireAuth, requireRole } from "middleware/auth.middleware";
+import { withPlayer } from "middleware/with-player.middleware";
 
-export const gamesRouter = new Hono();
+import { z } from "zod";
+import { AppEnv } from "../domains.types";
 
-gamesRouter.get('/', async (c) => {
-    const result = await getGames();
-    return c.json(result);
-})
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { gameSchema } from "./games-api.schemas";
+import { commonResponses, createResponseType } from "common/api-responses";
+import { createTaggedRoute, RouteTag } from "common/route-helpers";
+import { gameRatingsRouter } from "./game-rating.controller";
 
-/** get all scenarios for a particular game */
-gamesRouter.get('/:id/scenarios', async (c) => {
-    const id = c.req.param('id');
+export const gamesRouter = new OpenAPIHono<AppEnv>();
 
-    const scenarios = await getScenarios({gameId: id});
-    return c.json(scenarios ?? []);
-});
+gamesRouter.route('/:gameId', gameRatingsRouter);
 
-// maybe this is not the best endpoint name.
-gamesRouter.post('/:gameId/scenarios/:scenarioId/start-new', requireAuth, async c => {
-    const gameId = c.req.param('gameId');
-    const scenarioId = c.req.param('scenarioId');
-    const sessionId = await getCookie(c, 'sessionId');
-    if (!sessionId) {
-        throw new Error('no session');
+const createGamesRoute = createTaggedRoute(RouteTag.Games);
+
+gamesRouter.openapi(
+    createGamesRoute({
+      method: "get",
+      path: "/",
+      description: 'list all games',
+      responses: {
+        ...commonResponses,
+        200: createResponseType({
+          schema: z.array(gameSchema),
+        }),
+      },
+    }),
+    async (c) => {
+      const result = await getGames();
+  
+      return c.json(result, 200);
     }
+  );
 
-    const newGame = await startNewGame({scenarioId, sessionId})
+gamesRouter.openapi(
+  createGamesRoute({
+    method: "get",
+    path: "/:gameId/scenarios",
+    description: 'get all scenarios for a game',
+    request: {
+        params: z.object({ gameId: z.string() })
+    },
+    responses: {
+        200: createResponseType({ schema: z.object({ id: z.string()})})
+    }
+  }),
+  async (c) => {
+    const { gameId } = c.req.valid('param');
+
+    const scenarios = await getScenarios({ gameId });
+    return c.json(scenarios ?? []);
+  }
+);
+
+gamesRouter.post(
+  "/:gameId/scenarios/:scenarioId/start-new",
+  requireAuth,
+  withPlayer,
+  async (c) => {
+    const scenarioId = c.req.param("scenarioId");
+    const sessionId = c.get("sessionId");
+
+    const newGame = await gameSessionOrchestrators.startNewGame({ scenarioId, sessionId });
     return c.json(newGame);
-});
+  }
+);
 
-gamesRouter.post('/:gameId/scenarios', requireAuth, requireRole('ADMIN'), async c => {
-    return c.json('scenario created');
-})
+
+gamesRouter.post(
+  "/:gameId/scenarios",
+  requireAuth,
+  requireRole("ADMIN"),
+  async (c) => {
+    return c.json("scenario created");
+  }
+);

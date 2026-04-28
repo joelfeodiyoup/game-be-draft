@@ -1,9 +1,11 @@
-import prisma from '../databases/postgres/db';
 import { Prisma } from '@prisma/client';
 
-export const authSessionRepository = {
+export const createAuthSessionRepository = (prisma: Prisma.TransactionClient) => ({
     async create(data: Prisma.AuthSessionCreateInput) {
         return prisma.authSession.create({data});
+    },
+    async update({data, where}: {data: Prisma.AuthSessionUpdateInput, where: Pick<Prisma.AuthSessionWhereUniqueInput, 'id'>}) {
+        return prisma.authSession.update({data, where })
     },
     async findById(whereId: Pick<Prisma.AuthSessionWhereUniqueInput, 'id'>) {
         return prisma.authSession.findFirst({where: whereId});
@@ -18,4 +20,4 @@ export const authSessionRepository = {
     //     // const expiredSessions = await prisma.session.findMany({where: {expires_at}})
     //     return prisma.session.deleteMany()
     // }
-}
+})
