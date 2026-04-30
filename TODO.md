@@ -67,3 +67,4 @@
 - figure out the best way to handle controller endpoints like /country/:countryId/games/:gameId/ratings/:ratingId etc
 - add jsonb for ACID and compare the two.
 - reset some queries based on things. E.g. when voting, the game thing should update.
+- add static site for github display
