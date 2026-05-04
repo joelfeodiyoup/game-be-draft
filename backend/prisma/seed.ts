@@ -2,6 +2,7 @@ import prisma from '../src/databases/postgres/db';
 import { disconnectMongo } from '../src/databases/mongodb/db';
 import { seedUsers } from './seed-data/users.seed';
 import { seedGames } from './seed-data/games';
+import { seedGameRatings } from './seed-data/game-ratings.seed';
 
 async function main() {
     console.log('seeding database...');
@@ -28,10 +29,13 @@ async function main() {
     //     }
     // }
 
-    const seedSources = [seedUsers, seedGames];
+    const seedSources = [seedUsers, seedGames, seedGameRatings];
 
     await Promise.all(seedSources.map((s) => s.delete()));
-    await Promise.all(seedSources.map(s => s.seed()))
+
+    for (const seedSource of seedSources) {
+        await seedSource.seed();
+    }
 }
 
 main()

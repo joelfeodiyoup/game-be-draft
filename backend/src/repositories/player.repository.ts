@@ -12,5 +12,8 @@ export const createPlayerRepository = (prisma: Prisma.TransactionClient) => ({
     async deleteAll() {
         disallowInProduction();
         return await prisma.player.deleteMany();
+    },
+    async getAll() {
+        return await prisma.player.findMany();
     }
 })

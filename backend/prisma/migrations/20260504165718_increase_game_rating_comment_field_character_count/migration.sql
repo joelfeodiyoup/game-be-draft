@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "GameRating" ALTER COLUMN "comment" SET DATA TYPE VARCHAR(2000);

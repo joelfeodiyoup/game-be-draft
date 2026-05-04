@@ -1,6 +1,7 @@
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useErrorContext } from "@/contexts/ErrorContext";
-import { urls, defaultFetchOptions } from "@/data/fetchOptions";
+import { defaultFetchOptions } from "@/data/fetchOptions";
+import { api } from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useAuthentication = () => {
@@ -9,11 +10,15 @@ export const useAuthentication = () => {
     const queryClient = useQueryClient();
 
     const logoutMutation = useMutation({
-        mutationFn: () => fetch(urls.logout, {
-            ...defaultFetchOptions,
-            method: 'POST',
-            body: JSON.stringify({})
-        }),
+        mutationFn: async () => {
+            const { response } = await api.POST('/auth/logout', {
+                ...defaultFetchOptions,
+                method: 'POST',
+                body: undefined,
+            });
+
+            return response;
+        },
         onSuccess: () => {
             setIsLoggedIn(false);
             queryClient.clear();
@@ -24,10 +29,9 @@ export const useAuthentication = () => {
     });
 
     const createAccount = useMutation({
-        mutationFn: (credentials: {username: string, password: string}) => fetch(urls.createAccount, {
-            ...defaultFetchOptions,
+        mutationFn: (credentials: {username: string, password: string}) => api.POST('/auth/register', {
             method: 'POST',
-            body: JSON.stringify(credentials)
+            body: credentials
         }),
         onError: () => {
             setErrorMessage('could not create account');
@@ -35,21 +39,20 @@ export const useAuthentication = () => {
     });
 
     const loginMutation = useMutation({
-        mutationFn: async ({username, password}: {username: string, password: string}) => {
-            const response = await fetch(
-                urls.login,
+        mutationFn: async (credentials: {username: string, password: string}) => {
+            const { data, response } = await api.POST(
+                '/auth/login',
                 {
-                    ...defaultFetchOptions,
                     method: 'POST',
-                    body: JSON.stringify({ username, password })
+                    body: credentials
                 }
             );
 
             if (!response.ok) {
-                throw new Error(`Login failed with status ${response.status}`);
+                throw new Error(`Login failed with status ${response.statusText}`);
             }
 
-            return response;
+            return data;
         },
         onSuccess: () => setIsLoggedIn(true),
         onError: () => {

@@ -1,9 +1,11 @@
 const boundaries = require("eslint-plugin-boundaries");
 const typescriptParser = require("@typescript-eslint/parser");
 const typescriptEslintPlugin = require("@typescript-eslint/eslint-plugin");
+const rootConfig = require("../eslint.config.js");
 
 /** @type {import('eslint').Linter.Config[]} */
 module.exports = [
+  ...rootConfig,
   // {
   //   files: ['**/*.ts', '**/*.js'],
   //   languageOptions: {
@@ -35,7 +37,7 @@ module.exports = [
         {type: 'middleware', pattern: '**/*.middleware.ts', mode: 'file'},
         {type: 'orchestrator', pattern: '**/*.orchestrator.ts', mode: 'file'},
         {type: 'worker', pattern: '**/*.worker.ts', mode: 'file'},
-        {type: 'repository', pattern: '**/*.repository.ts', mode: 'file'}
+        {type: 'repository', pattern: '**/*.repository.ts', mode: 'file'},
       ]
     },
     rules: {
@@ -59,7 +61,7 @@ module.exports = [
           {
             from: { type: 'worker'},
             allow: { to: {type: ['repository', 'worker']}}
-          }
+          },
         ]
       }]
     }

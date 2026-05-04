@@ -9,7 +9,7 @@ type GameScenarioWorkers = {
     saveGameMeta: Worker<{title: string; description: string; gameId: string; gameStateLocationId: string}, Scenario>;
     deleteAll: Worker<void, void>;
     getGameScenario: Worker<{scenarioId: string}, {meta: Scenario; state: any} | null>;
-    getGameScenarios: Worker<{gameId: string}, {scenarios: Scenario[]} | null>;
+    getGameScenarios: Worker<{gameId: string}, Scenario[]>;
 }
 export const gameScenarioWorkers: GameScenarioWorkers = {
     saveGameState: async (tx, { scenarioState }) => {
@@ -41,6 +41,6 @@ export const gameScenarioWorkers: GameScenarioWorkers = {
     },
     getGameScenarios: async (tx, {gameId}) => {
         const scenarios = await createScenarioRepository(tx).findByGameId({game_id: gameId});
-        return {scenarios};
+        return scenarios;
     }
 }

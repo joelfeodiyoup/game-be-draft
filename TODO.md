@@ -38,17 +38,19 @@
 - ~~add game rating~~
 - ~~add some hono api documentation~~
 - ~~update my repository files to accept an optional client. That way, I can use prisma.$transaction(tx => { /* pass tx client to repository */})~~
+- ~~add authentication thing to documentation endpoint~~
 
 ## today
 
-- ~~add authentication thing to documentation endpoint~~
+- ~~add documentation for all the routes~~
 - implement the worker/orchestrator thing
+- add comments to game reviews
 
 ## future
 
 - add service to save game
 - show some kind of mock 'game' when they start a game
-- handle game state on FEx
+- handle game state on FE
 - clean up data seeding a bit?
 - fix styling so it just looks minimal and clean
 - auth middleware for every controller endpoint
@@ -57,7 +59,6 @@
 - rate limit login
 - rate limit expensive operations
 - set up global tanstack query error handling for 401s
-- add documentation for all the routes
 
 - add redis caching
 - write complex queries - joins, aggregations, transactions

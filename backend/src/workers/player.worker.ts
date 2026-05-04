@@ -10,6 +10,7 @@ type PlayerWorkers = {
     create: Worker<LoginCredentials, Player>;
     isValid: Worker<LoginCredentials, (Player | null)>;
     deleteAll: Worker<undefined, void>;
+    getAll: Worker<void, Player[]>;
 }
 
 export const playerWorkers: PlayerWorkers = {
@@ -32,5 +33,8 @@ export const playerWorkers: PlayerWorkers = {
     deleteAll: async (tx) => {
         disallowInProduction();
         await createPlayerRepository(tx).deleteAll();
+    },
+    getAll: async (tx) => {
+        return await createPlayerRepository(tx).getAll();
     }
 }

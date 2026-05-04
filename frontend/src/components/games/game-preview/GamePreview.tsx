@@ -1,7 +1,7 @@
-import { useGameContext } from "@/contexts/GameContext";
+// import { useGameContext } from "@/contexts/GameContext";
 
 export const GamePreview = () => {
-    const { game } = useGameContext();
+    // const { game } = useGameContext();
 
     return <>
         <p>rate the game</p>

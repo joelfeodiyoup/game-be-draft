@@ -80,6 +80,13 @@ authRouter.openapi(
     createAuthRoute({
     method: "post",
     path: "/logout",
+    request: {
+      body: {
+        content: {
+          'application/json': undefined
+        }
+      }
+    },
     responses: {
       200: createResponseType({
         description: 'session',

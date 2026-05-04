@@ -1,0 +1,1316 @@
+{
+  "router": {
+    "name": "SmartRouter"
+  },
+  "_basePath": "/",
+  "routes": [
+    {
+      "basePath": "/",
+      "path": "/*",
+      "method": "ALL"
+    },
+    {
+      "basePath": "/auth",
+      "path": "/auth/register",
+      "method": "POST"
+    },
+    {
+      "basePath": "/auth",
+      "path": "/auth/register",
+      "method": "POST"
+    },
+    {
+      "basePath": "/auth",
+      "path": "/auth/login",
+      "method": "POST"
+    },
+    {
+      "basePath": "/auth",
+      "path": "/auth/login",
+      "method": "POST"
+    },
+    {
+      "basePath": "/auth",
+      "path": "/auth/logout",
+      "method": "POST"
+    },
+    {
+      "basePath": "/auth",
+      "path": "/auth/logout",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/ratings",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/ratings",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/ratings",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/ratings",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/ratings",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/ratings",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId",
+      "method": "GET"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId",
+      "method": "GET"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games",
+      "method": "GET"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId",
+      "method": "GET"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId",
+      "method": "GET"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/scenarios",
+      "method": "GET"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/scenarios",
+      "method": "GET"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/scenarios/:scenarioId/start-new",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/scenarios/:scenarioId/start-new",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/scenarios/:scenarioId/start-new",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/scenarios/:scenarioId/start-new",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/scenarios",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/scenarios",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/scenarios",
+      "method": "POST"
+    },
+    {
+      "basePath": "/games",
+      "path": "/games/:gameId/scenarios",
+      "method": "POST"
+    },
+    {
+      "basePath": "/",
+      "path": "/",
+      "method": "GET"
+    },
+    {
+      "basePath": "/",
+      "path": "/doc.json",
+      "method": "GET"
+    },
+    {
+      "basePath": "/",
+      "path": "/doc",
+      "method": "GET"
+    }
+  ],
+  "openAPIRegistry": {
+    "_definitions": [
+      {
+        "type": "route",
+        "route": {
+          "method": "post",
+          "path": "/auth/register",
+          "request": {
+            "body": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "object",
+                      "shape": {
+                        "username": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "password": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        }
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "no description",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "object",
+                      "shape": {
+                        "id": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        }
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "Authentication"
+          ]
+        }
+      },
+      {
+        "type": "route",
+        "route": {
+          "method": "post",
+          "path": "/auth/login",
+          "request": {
+            "body": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "object",
+                      "shape": {
+                        "username": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "password": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        }
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "no description",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "object",
+                      "shape": {
+                        "sessionId": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "playerId": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "expiresAt": {
+                          "def": {
+                            "type": "date"
+                          },
+                          "type": "date",
+                          "minDate": null,
+                          "maxDate": null
+                        }
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "schema": {
+                "def": {
+                  "type": "object",
+                  "shape": {
+                    "error": {
+                      "def": {
+                        "type": "string"
+                      },
+                      "type": "string",
+                      "format": null,
+                      "minLength": null,
+                      "maxLength": null
+                    },
+                    "message": {
+                      "def": {
+                        "type": "optional",
+                        "innerType": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        }
+                      },
+                      "type": "optional"
+                    }
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "tags": [
+            "Authentication"
+          ]
+        }
+      },
+      {
+        "type": "route",
+        "route": {
+          "method": "post",
+          "path": "/auth/logout",
+          "responses": {
+            "200": {
+              "description": "session",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "object",
+                      "shape": {
+                        "sessionId": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "playerId": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "expiresAt": {
+                          "def": {
+                            "type": "date"
+                          },
+                          "type": "date",
+                          "minDate": null,
+                          "maxDate": null
+                        }
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "Authentication"
+          ]
+        }
+      },
+      {
+        "type": "route",
+        "route": {
+          "method": "post",
+          "path": "/games/{gameId}/ratings",
+          "request": {
+            "body": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "object",
+                      "shape": {
+                        "rating": {
+                          "def": {
+                            "type": "union",
+                            "options": [
+                              {
+                                "def": {
+                                  "type": "literal",
+                                  "values": [
+                                    1
+                                  ]
+                                },
+                                "type": "literal",
+                                "values": {}
+                              },
+                              {
+                                "def": {
+                                  "type": "literal",
+                                  "values": [
+                                    2
+                                  ]
+                                },
+                                "type": "literal",
+                                "values": {}
+                              },
+                              {
+                                "def": {
+                                  "type": "literal",
+                                  "values": [
+                                    3
+                                  ]
+                                },
+                                "type": "literal",
+                                "values": {}
+                              },
+                              {
+                                "def": {
+                                  "type": "literal",
+                                  "values": [
+                                    4
+                                  ]
+                                },
+                                "type": "literal",
+                                "values": {}
+                              },
+                              {
+                                "def": {
+                                  "type": "literal",
+                                  "values": [
+                                    5
+                                  ]
+                                },
+                                "type": "literal",
+                                "values": {}
+                              }
+                            ]
+                          },
+                          "type": "union",
+                          "options": [
+                            {
+                              "def": {
+                                "type": "literal",
+                                "values": [
+                                  1
+                                ]
+                              },
+                              "type": "literal",
+                              "values": {}
+                            },
+                            {
+                              "def": {
+                                "type": "literal",
+                                "values": [
+                                  2
+                                ]
+                              },
+                              "type": "literal",
+                              "values": {}
+                            },
+                            {
+                              "def": {
+                                "type": "literal",
+                                "values": [
+                                  3
+                                ]
+                              },
+                              "type": "literal",
+                              "values": {}
+                            },
+                            {
+                              "def": {
+                                "type": "literal",
+                                "values": [
+                                  4
+                                ]
+                              },
+                              "type": "literal",
+                              "values": {}
+                            },
+                            {
+                              "def": {
+                                "type": "literal",
+                                "values": [
+                                  5
+                                ]
+                              },
+                              "type": "literal",
+                              "values": {}
+                            }
+                          ]
+                        },
+                        "comment": {
+                          "def": {
+                            "type": "optional",
+                            "innerType": {
+                              "def": {
+                                "type": "string"
+                              },
+                              "type": "string",
+                              "format": null,
+                              "minLength": null,
+                              "maxLength": null
+                            }
+                          },
+                          "type": "optional"
+                        },
+                        "playerId": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "gameId": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        }
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "params": {
+              "def": {
+                "type": "object",
+                "shape": {
+                  "gameId": {
+                    "def": {
+                      "type": "string"
+                    },
+                    "type": "string",
+                    "format": null,
+                    "minLength": null,
+                    "maxLength": null
+                  }
+                }
+              },
+              "type": "object"
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "no description",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "object",
+                      "shape": {
+                        "created_at": {
+                          "def": {
+                            "type": "date"
+                          },
+                          "type": "date",
+                          "minDate": null,
+                          "maxDate": null
+                        },
+                        "game_id": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "player_id": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "rating": {
+                          "def": {
+                            "type": "number",
+                            "checks": []
+                          },
+                          "type": "number",
+                          "minValue": null,
+                          "maxValue": null,
+                          "isInt": false,
+                          "isFinite": true,
+                          "format": null
+                        },
+                        "comment": {
+                          "def": {
+                            "type": "optional",
+                            "innerType": {
+                              "def": {
+                                "type": "string"
+                              },
+                              "type": "string",
+                              "format": null,
+                              "minLength": null,
+                              "maxLength": null
+                            }
+                          },
+                          "type": "optional"
+                        }
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "Game Rating"
+          ]
+        }
+      },
+      {
+        "type": "route",
+        "route": {
+          "method": "get",
+          "path": "/games/{gameId}",
+          "request": {
+            "params": {
+              "def": {
+                "type": "object",
+                "shape": {
+                  "gameId": {
+                    "def": {
+                      "type": "string"
+                    },
+                    "type": "string",
+                    "format": null,
+                    "minLength": null,
+                    "maxLength": null
+                  }
+                }
+              },
+              "type": "object"
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "no description",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "array",
+                      "element": {
+                        "def": {
+                          "type": "object",
+                          "shape": {
+                            "rating": {
+                              "def": {
+                                "type": "number",
+                                "checks": []
+                              },
+                              "type": "number",
+                              "minValue": null,
+                              "maxValue": null,
+                              "isInt": false,
+                              "isFinite": true,
+                              "format": null
+                            }
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "array",
+                    "element": {
+                      "def": {
+                        "type": "object",
+                        "shape": {
+                          "rating": {
+                            "def": {
+                              "type": "number",
+                              "checks": []
+                            },
+                            "type": "number",
+                            "minValue": null,
+                            "maxValue": null,
+                            "isInt": false,
+                            "isFinite": true,
+                            "format": null
+                          }
+                        }
+                      },
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "Game Rating"
+          ]
+        }
+      },
+      {
+        "type": "route",
+        "route": {
+          "method": "get",
+          "path": "/games",
+          "description": "list all games",
+          "responses": {
+            "200": {
+              "description": "no description",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "array",
+                      "element": {
+                        "def": {
+                          "type": "object",
+                          "shape": {
+                            "id": {
+                              "def": {
+                                "type": "string"
+                              },
+                              "type": "string",
+                              "format": null,
+                              "minLength": null,
+                              "maxLength": null
+                            },
+                            "title": {
+                              "def": {
+                                "type": "string"
+                              },
+                              "type": "string",
+                              "format": null,
+                              "minLength": null,
+                              "maxLength": null
+                            },
+                            "description": {
+                              "def": {
+                                "type": "string"
+                              },
+                              "type": "string",
+                              "format": null,
+                              "minLength": null,
+                              "maxLength": null
+                            },
+                            "created_at": {
+                              "def": {
+                                "type": "date"
+                              },
+                              "type": "date",
+                              "minDate": null,
+                              "maxDate": null
+                            }
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "array",
+                    "element": {
+                      "def": {
+                        "type": "object",
+                        "shape": {
+                          "id": {
+                            "def": {
+                              "type": "string"
+                            },
+                            "type": "string",
+                            "format": null,
+                            "minLength": null,
+                            "maxLength": null
+                          },
+                          "title": {
+                            "def": {
+                              "type": "string"
+                            },
+                            "type": "string",
+                            "format": null,
+                            "minLength": null,
+                            "maxLength": null
+                          },
+                          "description": {
+                            "def": {
+                              "type": "string"
+                            },
+                            "type": "string",
+                            "format": null,
+                            "minLength": null,
+                            "maxLength": null
+                          },
+                          "created_at": {
+                            "def": {
+                              "type": "date"
+                            },
+                            "type": "date",
+                            "minDate": null,
+                            "maxDate": null
+                          }
+                        }
+                      },
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "schema": {
+                "def": {
+                  "type": "object",
+                  "shape": {
+                    "error": {
+                      "def": {
+                        "type": "string"
+                      },
+                      "type": "string",
+                      "format": null,
+                      "minLength": null,
+                      "maxLength": null
+                    },
+                    "message": {
+                      "def": {
+                        "type": "optional",
+                        "innerType": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        }
+                      },
+                      "type": "optional"
+                    }
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "tags": [
+            "Games"
+          ]
+        }
+      },
+      {
+        "type": "route",
+        "route": {
+          "method": "get",
+          "path": "/games/{gameId}",
+          "description": "get details for a game",
+          "request": {
+            "params": {
+              "def": {
+                "type": "object",
+                "shape": {
+                  "gameId": {
+                    "def": {
+                      "type": "string"
+                    },
+                    "type": "string",
+                    "format": null,
+                    "minLength": null,
+                    "maxLength": null
+                  }
+                }
+              },
+              "type": "object"
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "no description",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "object",
+                      "shape": {
+                        "id": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "title": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "description": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        },
+                        "created_at": {
+                          "def": {
+                            "type": "date",
+                            "coerce": true
+                          },
+                          "type": "date",
+                          "minDate": null,
+                          "maxDate": null
+                        },
+                        "average_rating": {
+                          "def": {
+                            "type": "nullable",
+                            "innerType": {
+                              "def": {
+                                "type": "pipe",
+                                "in": {
+                                  "def": {
+                                    "type": "custom",
+                                    "check": "custom",
+                                    "abort": true
+                                  },
+                                  "type": "custom"
+                                },
+                                "out": {
+                                  "def": {
+                                    "type": "transform"
+                                  },
+                                  "type": "transform"
+                                }
+                              },
+                              "type": "pipe",
+                              "in": {
+                                "def": {
+                                  "type": "custom",
+                                  "check": "custom",
+                                  "abort": true
+                                },
+                                "type": "custom"
+                              },
+                              "out": {
+                                "def": {
+                                  "type": "transform"
+                                },
+                                "type": "transform"
+                              }
+                            }
+                          },
+                          "type": "nullable"
+                        },
+                        "rating_count": {
+                          "def": {
+                            "type": "number",
+                            "checks": []
+                          },
+                          "type": "number",
+                          "minValue": null,
+                          "maxValue": null,
+                          "isInt": false,
+                          "isFinite": true,
+                          "format": null
+                        },
+                        "game_ratings": {
+                          "def": {
+                            "type": "optional",
+                            "innerType": {
+                              "def": {
+                                "type": "array",
+                                "element": {
+                                  "def": {
+                                    "type": "object",
+                                    "shape": {
+                                      "player_id": {
+                                        "def": {
+                                          "type": "string"
+                                        },
+                                        "type": "string",
+                                        "format": null,
+                                        "minLength": null,
+                                        "maxLength": null
+                                      },
+                                      "rating": {
+                                        "def": {
+                                          "type": "number",
+                                          "checks": []
+                                        },
+                                        "type": "number",
+                                        "minValue": null,
+                                        "maxValue": null,
+                                        "isInt": false,
+                                        "isFinite": true,
+                                        "format": null
+                                      },
+                                      "comment": {
+                                        "def": {
+                                          "type": "nullable",
+                                          "innerType": {
+                                            "def": {
+                                              "type": "string"
+                                            },
+                                            "type": "string",
+                                            "format": null,
+                                            "minLength": null,
+                                            "maxLength": null
+                                          }
+                                        },
+                                        "type": "nullable"
+                                      },
+                                      "created_at": {
+                                        "def": {
+                                          "type": "date",
+                                          "coerce": true
+                                        },
+                                        "type": "date",
+                                        "minDate": null,
+                                        "maxDate": null
+                                      }
+                                    }
+                                  },
+                                  "type": "object"
+                                }
+                              },
+                              "type": "array",
+                              "element": {
+                                "def": {
+                                  "type": "object",
+                                  "shape": {
+                                    "player_id": {
+                                      "def": {
+                                        "type": "string"
+                                      },
+                                      "type": "string",
+                                      "format": null,
+                                      "minLength": null,
+                                      "maxLength": null
+                                    },
+                                    "rating": {
+                                      "def": {
+                                        "type": "number",
+                                        "checks": []
+                                      },
+                                      "type": "number",
+                                      "minValue": null,
+                                      "maxValue": null,
+                                      "isInt": false,
+                                      "isFinite": true,
+                                      "format": null
+                                    },
+                                    "comment": {
+                                      "def": {
+                                        "type": "nullable",
+                                        "innerType": {
+                                          "def": {
+                                            "type": "string"
+                                          },
+                                          "type": "string",
+                                          "format": null,
+                                          "minLength": null,
+                                          "maxLength": null
+                                        }
+                                      },
+                                      "type": "nullable"
+                                    },
+                                    "created_at": {
+                                      "def": {
+                                        "type": "date",
+                                        "coerce": true
+                                      },
+                                      "type": "date",
+                                      "minDate": null,
+                                      "maxDate": null
+                                    }
+                                  }
+                                },
+                                "type": "object"
+                              }
+                            }
+                          },
+                          "type": "optional"
+                        }
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "Games"
+          ]
+        }
+      },
+      {
+        "type": "route",
+        "route": {
+          "method": "get",
+          "path": "/games/{gameId}/scenarios",
+          "description": "get all scenarios for a game",
+          "request": {
+            "params": {
+              "def": {
+                "type": "object",
+                "shape": {
+                  "gameId": {
+                    "def": {
+                      "type": "string"
+                    },
+                    "type": "string",
+                    "format": null,
+                    "minLength": null,
+                    "maxLength": null
+                  }
+                }
+              },
+              "type": "object"
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "no description",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "object",
+                      "shape": {
+                        "id": {
+                          "def": {
+                            "type": "string"
+                          },
+                          "type": "string",
+                          "format": null,
+                          "minLength": null,
+                          "maxLength": null
+                        }
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "Games"
+          ]
+        }
+      },
+      {
+        "type": "route",
+        "route": {
+          "path": "/games/{gameId}/scenarios/{scenarioId}/start-new",
+          "method": "post",
+          "description": "start playing a scenario",
+          "request": {
+            "params": {
+              "def": {
+                "type": "object",
+                "shape": {
+                  "scenarioId": {
+                    "def": {
+                      "type": "string"
+                    },
+                    "type": "string",
+                    "format": null,
+                    "minLength": null,
+                    "maxLength": null
+                  },
+                  "gameId": {
+                    "def": {
+                      "type": "string"
+                    },
+                    "type": "string",
+                    "format": null,
+                    "minLength": null,
+                    "maxLength": null
+                  }
+                }
+              },
+              "type": "object"
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "no description",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "object",
+                      "shape": {}
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "Games"
+          ]
+        }
+      },
+      {
+        "type": "route",
+        "route": {
+          "method": "post",
+          "path": "/games/{gameId}/scenarios",
+          "description": "create a new scenario (requires admin role)",
+          "request": {
+            "params": {
+              "def": {
+                "type": "object",
+                "shape": {
+                  "gameId": {
+                    "def": {
+                      "type": "string"
+                    },
+                    "type": "string",
+                    "format": null,
+                    "minLength": null,
+                    "maxLength": null
+                  }
+                }
+              },
+              "type": "object"
+            }
+          },
+          "security": [
+            {
+              "cookieAuth": [
+                "ADMIN"
+              ]
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "no description",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "def": {
+                      "type": "object",
+                      "shape": {}
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "Games"
+          ]
+        }
+      }
+    ]
+  }
+}

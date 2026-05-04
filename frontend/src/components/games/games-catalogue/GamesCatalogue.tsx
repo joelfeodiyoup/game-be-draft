@@ -1,9 +1,11 @@
-import type { Game } from "@backend/types";
 import { useGamesCatalogue } from "./useGamesCatalogue";
 import styles from './GamesCatalogue.module.scss';
+import type { Game } from "@/types/api";
+import { useGameContext } from "@/contexts/GameContext";
 
 export const GamesCatalogue = () => {
-    const {gamesQuery, getIsSelectedGame, handleSelectingGame} = useGamesCatalogue()
+    const {gamesQuery, getIsSelectedGame } = useGamesCatalogue();
+    const { setGameId } = useGameContext();
 
     if (gamesQuery.isError) return <div>Error: {gamesQuery.error.message}</div>
 
@@ -14,7 +16,7 @@ export const GamesCatalogue = () => {
                     className={styles.game}
                     key={game.id}
                     game={game}
-                    onGameSelect={handleSelectingGame}
+                    onGameSelect={() => setGameId(game.id)}
                     isSelected={getIsSelectedGame(game)}
                 >
                 </GameItem>

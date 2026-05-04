@@ -131,6 +131,7 @@ model GameRating {
   game    Game @relation(fields: [game_id], references: [id], onDelete: Cascade)
   rating      Int      @db.SmallInt // 2 bytes, range -32768 to 32767
   created_at  DateTime @default(now()) @db.Timestamptz
+  comment String? @db.VarChar(2000)
 
   @@id([player_id, game_id])
   @@index([game_id])

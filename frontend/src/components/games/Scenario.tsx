@@ -1,20 +1,18 @@
-import { useGameContext } from "@/contexts/GameContext";
-import { defaultFetchOptions, urls } from "@/data/fetchOptions";
+import { api } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query"
 
 export const Scenario = ({scenarioId, gameId}: {scenarioId: string, gameId: string}) => {
-    const { setGame } = useGameContext();
+    // const { setGameId } = useGameContext();
     const startNewScenarioMutation = useMutation({
         mutationFn: async () => {
-            const response = await fetch(urls.startNewScenario({scenarioId, gameId}), {
-                ...defaultFetchOptions,
-                method: 'POST'
+            const { response } = await api.POST('/games/{gameId}/scenarios/{scenarioId}/start-new', {
+                params: { path: { scenarioId, gameId }}
             });
             if (!response.ok) {
                 throw new Error('could not start scenario');
             }
-            const game = await response.json();
-            setGame(game);
+            // const game = data;
+            // setGameId(game.id);
         },
     });
 

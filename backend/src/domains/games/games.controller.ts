@@ -1,4 +1,4 @@
-import { getGames, getScenarios } from "./game-catalog.orchestrator";
+import { gamesOrchestrators } from "./game-catalog.orchestrator";
 import { gameSessionOrchestrators } from "./game-session.orchestrator";
 import { requireAuth, requireRole } from "middleware/auth.middleware";
 import { withPlayer } from "middleware/with-player.middleware";
@@ -7,14 +7,14 @@ import { z } from "zod";
 import { AppEnv } from "../domains.types";
 
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { gameSchema } from "./games-api.schemas";
 import { commonResponses, createResponseType } from "common/api-responses";
 import { createTaggedRoute, RouteTag } from "common/route-helpers";
 import { gameRatingsRouter } from "./game-rating.controller";
+import { gameBaseSchema, gameDetailSchema } from "./games.schema";
 
 export const gamesRouter = new OpenAPIHono<AppEnv>();
 
-gamesRouter.route('/:gameId', gameRatingsRouter);
+gamesRouter.route('/:gameId/ratings', gameRatingsRouter);
 
 const createGamesRoute = createTaggedRoute(RouteTag.Games);
 
@@ -26,16 +26,38 @@ gamesRouter.openapi(
       responses: {
         ...commonResponses,
         200: createResponseType({
-          schema: z.array(gameSchema),
+          schema: z.array(gameBaseSchema),
         }),
       },
     }),
     async (c) => {
-      const result = await getGames();
+      const result = await gamesOrchestrators.getAll();
   
       return c.json(result, 200);
     }
   );
+
+gamesRouter.openapi(
+  createGamesRoute({
+    method: 'get',
+    path: '/{gameId}',
+    description: 'get details for a game',
+    request: {
+      params: z.object({ gameId: z.string()})
+    },
+    responses: {
+      200: createResponseType({ schema: gameDetailSchema})
+    }
+  }),
+  async c => {
+    console.log('hit the game endpoint...');
+    const { gameId } = c.req.valid('param');
+
+    const game = await gamesOrchestrators.get({gameId});
+
+    return c.json(gameDetailSchema.parse(game), 200);
+  }
+)
 
 gamesRouter.openapi(
   createGamesRoute({
@@ -46,13 +68,15 @@ gamesRouter.openapi(
         params: z.object({ gameId: z.string() })
     },
     responses: {
-        200: createResponseType({ schema: z.object({ id: z.string()})})
+        200: createResponseType({ schema: z.array(
+          z.object({ id: z.string()})
+        )})
     }
   }),
   async (c) => {
     const { gameId } = c.req.valid('param');
 
-    const scenarios = await getScenarios({ gameId });
+    const scenarios = await gamesOrchestrators.getScenarios({ gameId });
     return c.json(scenarios ?? []);
   }
 );
