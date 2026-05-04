@@ -3,6 +3,7 @@ import { Section } from "@/components/ui/section/Section";
 import { Stack } from "@/components/ui/stack/Stack";
 import { useGameDetail } from "./useGameDetail";
 import { useGameRating } from "./useGameRating";
+import { Cluster } from "@/components/ui/cluster/Cluster";
 
 export const GameDetail = () => {
     const { scenariosQuery, game, createScenarioMutation, startGameSessionMutation} = useGameDetail();
@@ -18,20 +19,18 @@ export const GameDetail = () => {
         <Section title={"description"}>
             <p>{game.description}</p>
         </Section>
-        <Section title={"rating"}>
-            <p>current rating: {Number(game.average_rating)} from {game.rating_count} reviews</p>
-        </Section>
         <Section title="Rate game">
             <Stack>
-
-            <div>
-                {[1,2,3,4,5].map(r => <Button key={r} onClick={() => gameRating.setState(state => ({...state, rating: r}))}>{r}</Button>)}
-            </div>
-            <textarea onChange={event => gameRating.setState(state => ({...state, comment: event.target.value}))} />
+            <Cluster style={{width: 'min-content', margin: 'auto'}}>
+                {[1,2,3,4,5].map(r => <Button isSelected={gameRating.state.rating === r} key={r} onClick={() => gameRating.setState(state => ({...state, rating: r}))}>{r}</Button>)}
+            </Cluster>
+            <textarea placeholder="comment" onChange={event => gameRating.setState(state => ({...state, comment: event.target.value}))} />
             <Button onClick={() => gameRating.mutation.mutate()}>submit</Button>
             </Stack>
         </Section>
         <Section title="reviews">
+            <Stack>
+            <p>current rating: {Number(game.average_rating)} from {game.rating_count} reviews</p>
             {game.game_ratings?.map(review => (
                 <section>
                     <p>{review.comment}</p>
@@ -42,6 +41,7 @@ export const GameDetail = () => {
                     </p>
                     </section>
             ))}
+            </Stack>
         </Section>
         <Section title={"create new scenario"}>
             <Button onClick={() => createScenarioMutation.mutate()}>create (admin only)</Button>

@@ -4,6 +4,7 @@
     border: 2px solid black;
     justify-content: space-between;
     gap: 1rem;
+    padding: 0.2rem;
 
     * {
         width: 1;
@@ -11,5 +12,11 @@
 
     .title {
         align-self: flex-start;
+    }
+
+    .children-container {
+        &.collapsed {
+            display: none;
+        }
     }
 }

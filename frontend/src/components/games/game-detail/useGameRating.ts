@@ -1,9 +1,12 @@
+import { useGameContext } from "@/contexts/GameContext";
 import { api } from "@/lib/api";
 import type { Game } from "@/types/api";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
 export const useGameRating = ( {game }: {game: Game | null }) => {
+
+    const { refetchGame } = useGameContext();
 
     const [rateGameState, setRateGameState] = useState<{comment: string, rating: number | null}>({comment: '', rating: null})
     const rateGameMutation = useMutation({
@@ -16,6 +19,7 @@ export const useGameRating = ( {game }: {game: Game | null }) => {
             if (!response.ok) {
                 // throw {st}
             }
+            refetchGame();
         }
     });
 

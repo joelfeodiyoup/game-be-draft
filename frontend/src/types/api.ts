@@ -7,6 +7,7 @@ type ApiResponse<T extends keyof paths, Method extends keyof paths[T]> =
 
 export type Game = ApiResponse<'/games/{gameId}', 'get'>;
 export type GamesList = ApiResponse<"/games", "get">;
+export type GamesListItem = GamesList[0];
 
 export type Scenarios = ApiResponse<'/games/{gameId}/scenarios', 'get'>
 export type Scenario = Scenarios[0];

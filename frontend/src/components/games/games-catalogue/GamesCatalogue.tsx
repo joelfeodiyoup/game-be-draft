@@ -1,7 +1,8 @@
 import { useGamesCatalogue } from "./useGamesCatalogue";
 import styles from './GamesCatalogue.module.scss';
-import type { Game } from "@/types/api";
+import type { GamesListItem } from "@/types/api";
 import { useGameContext } from "@/contexts/GameContext";
+import { Button } from "@/components/ui/button/Button";
 
 export const GamesCatalogue = () => {
     const {gamesQuery, getIsSelectedGame } = useGamesCatalogue();
@@ -27,8 +28,8 @@ export const GamesCatalogue = () => {
 
 type GameItemProps = React.ComponentPropsWithoutRef<'li'> & {
     isSelected: boolean;
-    game: Game;
-    onGameSelect: (game: Game) => void;
+    game: GamesListItem;
+    onGameSelect: (game: GamesListItem) => void;
     children?: React.ReactNode;
 };
 const GameItem = ({ game, isSelected, onGameSelect, children, className, ...props }: GameItemProps) => (
@@ -36,9 +37,9 @@ const GameItem = ({ game, isSelected, onGameSelect, children, className, ...prop
         {...props}
         className={`${className} ${isSelected ? styles.selected : ''}`}
     >
-        <span onClick={() => onGameSelect(game)}>
+        <Button isSelected={isSelected} onClick={() => onGameSelect(game)}>
             {game.title}
-        </span>
+        </Button>
         {isSelected && children}
     </li>
 );

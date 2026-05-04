@@ -2,11 +2,12 @@ import { useState } from "react"
 import { GameContext } from "./GameContext"
 import type { Game } from "@/types/api";
 import { api } from "@/lib/api";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const GameContextProvider = ({children}: {children: React.ReactNode}) => {
     const [game, setGame] = useState<Game | null>(null);
     const [gameId, setGameId] = useState('');
+    const queryClient = useQueryClient();
 
     useQuery({
         queryFn: async () => {
@@ -27,5 +28,9 @@ export const GameContextProvider = ({children}: {children: React.ReactNode}) => 
         queryKey: ['get-game', gameId],
     });
 
-    return <GameContext.Provider value={{game, setGameId}}>{children}</GameContext.Provider>
+    const refetchGame = () => {
+        queryClient.invalidateQueries({ queryKey: ['get-game', gameId] });
+    };
+
+    return <GameContext.Provider value={{game, setGameId, refetchGame}}>{children}</GameContext.Provider>
 }

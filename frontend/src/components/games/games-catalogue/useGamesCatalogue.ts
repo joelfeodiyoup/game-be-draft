@@ -1,6 +1,6 @@
 import { useGameContext } from "@/contexts/GameContext";
 import { api } from "@/lib/api";
-import type { Game } from "@/types/api";
+import type { GamesListItem } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 
@@ -18,9 +18,9 @@ export const useGamesCatalogue = () => {
         placeholderData: [],
     });
 
-    const getIsSelectedGame = useCallback((selectedGame: Game) => {
+    const getIsSelectedGame = useCallback((selectedGame: GamesListItem) => {
         return game?.id === selectedGame.id;
-    }, [])
+    }, [game])
 
     return {
         gamesQuery,

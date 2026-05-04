@@ -1,18 +1,19 @@
 .title {
     font-weight: bold;
 
-    /* Gradient text fill */
-    background: linear-gradient(
-        135deg,
-        var(--color-primary) 0%,
-        var(--color-accent) 50%,
-        var(--color-primary) 100%
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    // /* Gradient text fill */
+    // background: linear-gradient(
+    //     135deg,
+    //     var(--color-primary) 0%,
+    //     var(--color-accent) 50%,
+    //     var(--color-primary) 100%
+    // );
+    // background-clip: text;
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
 
-    /* Stroke around the font curves */
-    -webkit-text-stroke: 1px var(--color-accent-dark);
-    text-stroke: 4px var(--color-accent-dark);
+    // /* Stroke around the font curves */
+    // -webkit-text-stroke: 1px var(--color-accent-dark);
+    // text-stroke: 4px var(--color-accent-dark);
+    margin-block: 2rem;
 }
