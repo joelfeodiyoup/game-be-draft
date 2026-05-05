@@ -6,6 +6,7 @@ import { z } from "zod";
 import { sessionSchema } from "./auth.schema";
 import { createTaggedRoute, RouteTag } from "common/route-helpers";
 import { authOrchestrators } from "./auth.orchestrator";
+import { requireAuth } from "middleware/auth.middleware";
 
 export const authRouter = new OpenAPIHono<AppEnv>();
 
@@ -77,16 +78,36 @@ authRouter.openapi(
 );
 
 authRouter.openapi(
+  createAuthRoute({
+    method: 'get',
+    path: '/user',
+    responses: {
+      200: createResponseType({
+        description: 'the logged in user',
+        schema: z.object({
+          name: z.string(),
+        })
+      }),
+      401: createResponseType({
+        description: 'no',
+        schema: z.object({message: z.string()})
+      })
+    },
+    middleware: [requireAuth]
+  }),
+  async c => {
+    const sessionId = await getCookie(c, 'sessionId');
+    if (!sessionId) return c.json('unauthorized', 401);
+    const user = await authOrchestrators.getUser({ sessionId });
+
+    return c.json({name: user?.username ?? ''}, 200);
+  }
+)
+
+authRouter.openapi(
     createAuthRoute({
     method: "post",
     path: "/logout",
-    request: {
-      body: {
-        content: {
-          'application/json': undefined
-        }
-      }
-    },
     responses: {
       200: createResponseType({
         description: 'session',

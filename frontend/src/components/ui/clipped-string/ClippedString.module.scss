@@ -1,0 +1,8 @@
+.clipped-string {
+    &.clipped {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        white-space: nowrap;
+    }
+}

@@ -1,8 +1,11 @@
 .layout {
     display: grid;
     grid-template-columns: 20ch 1fr 20ch;
+    grid-template-rows: auto 1fr;
     gap: 1rem;
-    padding-bottom: 5rem;
+
+    height: 100vh;
+    overflow: hidden;
 
     @mixin shared-panel-styles {
         background: var(--code-bg);
@@ -11,8 +14,6 @@
     .header {
         grid-column: 1 / -1;
         @include shared-panel-styles();
-        position: sticky;
-        top: 0;
     }
     .error {
         grid-column: 1 / -1;
@@ -28,6 +29,11 @@
 
     .main {
         @include shared-panel-styles();
+        overflow-y: auto;
+        min-height: 0;
+        padding-bottom:4rem;
+        padding-top: 0.2rem;
+        padding-inline: 0.2rem;
     }
 
     .right {

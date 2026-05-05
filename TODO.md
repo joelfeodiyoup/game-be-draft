@@ -40,32 +40,39 @@
 - ~~update my repository files to accept an optional client. That way, I can use prisma.$transaction(tx => { /* pass tx client to repository */})~~
 - ~~add authentication thing to documentation endpoint~~
 
-## today
+### 04.05.2026
 
 - ~~add documentation for all the routes~~
-- implement the worker/orchestrator thing
-- add comments to game reviews
+- ~~reset some queries based on things. E.g. when voting, the game thing should update.~~
+- ~~fix styling so it just looks minimal and clean~~
+- ~~add comments to game reviews~~
+- ~~implement the worker/orchestrator thing~~
 
-## future
+## today
 
+- ~~fix refetch on modifying game rating~~
+- ~~add user info at top~~
+- ~~sort games alphabetically~~
+- map game rating fields to data
+- paginate game reviews
 - add service to save game
 - show some kind of mock 'game' when they start a game
 - handle game state on FE
-- clean up data seeding a bit?
-- fix styling so it just looks minimal and clean
+- add 'create scenario' functionality
+- further fix up dto objects.
+
+## future
+
 - auth middleware for every controller endpoint
 - integration tests
 - add rate limiting
 - rate limit login
 - rate limit expensive operations
 - set up global tanstack query error handling for 401s
-
 - add redis caching
 - write complex queries - joins, aggregations, transactions
 - implement data seeding
 - add query optimization examples - explain analyze, n+1 prevention
-
 - figure out the best way to handle controller endpoints like /country/:countryId/games/:gameId/ratings/:ratingId etc
 - add jsonb for ACID and compare the two.
-- reset some queries based on things. E.g. when voting, the game thing should update.
 - add static site for github display

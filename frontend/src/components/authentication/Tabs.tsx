@@ -10,7 +10,7 @@ export const Tabs = ({tabs, initiallyOpenTabIndex = 0}: TabsProps) => {
     const [openTabIndex, setOpenTabIndex] = useState(initiallyOpenTabIndex);
 
     return <div className={styles.tabs}>
-        <div>{tabs.map((tab, index) => <span className={
+        <div>{tabs.map((tab, index) => <span key={`tab-${index}`} className={
             classes(openTabIndex === index ? styles['is-open'] : '',
                 styles.tab
             )

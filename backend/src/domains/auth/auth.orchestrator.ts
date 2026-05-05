@@ -21,6 +21,7 @@ type AuthOrchestrators = {
     userHasRole: Orchestrator<{playerId: string, role: AuthRole}, boolean>;
     assignRole: Orchestrator<{playerId: string, role: AuthRole}, boolean>;
     getUsers:Orchestrator<void, Player[]>;
+    getUser: Orchestrator<{sessionId: string}, Player | null>;
 }
 
 export const authOrchestrators: AuthOrchestrators = {
@@ -88,6 +89,13 @@ export const authOrchestrators: AuthOrchestrators = {
     getUsers: async () => {
         return await prisma.$transaction(async tx => {
             return await playerWorkers.getAll(tx);
+        })
+    },
+    getUser: async (args) => {
+        return prisma.$transaction(async tx => {
+            const authSession = await authSessionWorkers.get(tx, args);
+            if (!authSession) return null;
+            return await playerWorkers.getById(tx, {userId: authSession.player_id});
         })
     }
 }

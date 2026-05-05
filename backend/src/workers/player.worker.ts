@@ -11,6 +11,7 @@ type PlayerWorkers = {
     isValid: Worker<LoginCredentials, (Player | null)>;
     deleteAll: Worker<undefined, void>;
     getAll: Worker<void, Player[]>;
+    getById: Worker<{userId: string}, Player | null>;
 }
 
 export const playerWorkers: PlayerWorkers = {
@@ -35,6 +36,9 @@ export const playerWorkers: PlayerWorkers = {
         await createPlayerRepository(tx).deleteAll();
     },
     getAll: async (tx) => {
-        return await createPlayerRepository(tx).getAll();
+        return createPlayerRepository(tx).getAll();
+    },
+    getById: async (tx, args) => {
+        return createPlayerRepository(tx).get({id: args.userId});
     }
 }

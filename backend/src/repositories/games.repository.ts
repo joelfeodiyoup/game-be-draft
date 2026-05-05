@@ -11,13 +11,18 @@ export const gameDetailInclude = {
                     username: true,
                 }
             }
+        },
+        orderBy: {
+            updated_at: 'desc'
         }
     }
 } satisfies Prisma.GameInclude;
 
 export const createGamesRepository = (prisma: Prisma.TransactionClient) => ({
     async getAll() {
-        return prisma.game.findMany();
+        return prisma.game.findMany({orderBy: {
+            title: 'asc'
+        }});
     },
     async getById({whereGame}: {whereGame: Pick<Prisma.GameWhereUniqueInput, 'id'>}) {
         return prisma.game.findUnique({where: whereGame, include: gameDetailInclude});

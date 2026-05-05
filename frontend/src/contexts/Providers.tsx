@@ -40,12 +40,13 @@ const QueryClientWithErrorHandling = ({children}: {children: React.ReactNode}) =
 }
 
 export const Providers = ({children}: {children: React.ReactNode}) => {
-    return <AuthProvider><QueryClientWithErrorHandling>
-        <ErrorContextProvider>
+    return <ErrorContextProvider> 
+        <QueryClientWithErrorHandling><AuthProvider>
+        
         <GameContextProvider>
         {children}
         </GameContextProvider>
-        </ErrorContextProvider>
-        </QueryClientWithErrorHandling>
     </AuthProvider>
+        </QueryClientWithErrorHandling>
+        </ErrorContextProvider>
 }

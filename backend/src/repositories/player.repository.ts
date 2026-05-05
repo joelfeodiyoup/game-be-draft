@@ -15,5 +15,8 @@ export const createPlayerRepository = (prisma: Prisma.TransactionClient) => ({
     },
     async getAll() {
         return await prisma.player.findMany();
+    },
+    async get({id}: Pick<Prisma.PlayerWhereUniqueInput, 'id'>) {
+        return await prisma.player.findUnique({where: {id}});
     }
 })

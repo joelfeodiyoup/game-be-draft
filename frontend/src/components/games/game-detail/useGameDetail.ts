@@ -1,3 +1,4 @@
+import { useErrorContext } from "@/contexts/ErrorContext";
 import { useGameContext } from "@/contexts/GameContext";
 import { api } from "@/lib/api";
 import type { Scenario } from "@/types/api";
@@ -5,6 +6,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 
 export const useGameDetail = () => {
     const { game } = useGameContext();
+    const { setErrorMessage } = useErrorContext();
 
     const scenariosQuery = useQuery({
         queryFn: async () => {
@@ -26,13 +28,13 @@ export const useGameDetail = () => {
     const createScenarioMutation = useMutation({
         mutationFn: async () => {
             if (!game) throw new Error('No game selected');
-            const { response } = await api.POST('/games/{gameId}/scenarios', {
+            const { response, error } = await api.POST('/games/{gameId}/scenarios', {
                 body: undefined,
                 params: { path: { gameId: game.id }}
             });
-            if (!response.ok) {
+            if (error || !response.ok) {
                 if (response.status === 401) {
-                    throw { status: response.status, message: response.statusText};
+                    throw { status: response.status, message: 'only admins can create scenarios'};
                 }
                 throw {status: response.status, message: 'error'};
             }

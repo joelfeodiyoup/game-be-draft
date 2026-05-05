@@ -4,6 +4,7 @@ import { Stack } from "@/components/ui/stack/Stack";
 import { useGameDetail } from "./useGameDetail";
 import { useGameRating } from "./useGameRating";
 import { Cluster } from "@/components/ui/cluster/Cluster";
+import { ClippedString } from "@/components/ui/clipped-string/ClippedString";
 
 export const GameDetail = () => {
     const { scenariosQuery, game, createScenarioMutation, startGameSessionMutation} = useGameDetail();
@@ -32,8 +33,11 @@ export const GameDetail = () => {
             <Stack>
             <p>current rating: {Number(game.average_rating)} from {game.rating_count} reviews</p>
             {game.game_ratings?.map(review => (
-                <section>
-                    <p>{review.comment}</p>
+                <section key={review.player_id}>
+                    <p><ClippedString>
+                        {review.comment}
+                        </ClippedString>
+                        </p>
                     <p>
                     <span>{review.rating} / 5</span>
                     <span> - </span>

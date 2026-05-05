@@ -10,7 +10,7 @@ export const seedUsers: Seed = {
     // seed users
     const users: { username: string; password: string; isAdmin: boolean }[] = [
       { username: "admin", password: "admin", isAdmin: true },
-      ...Array.from(Array(10), () => ({username: faker.person.firstName(), password: 'password', isAdmin: false}))
+      ...Array.from(Array(40), () => ({username: faker.person.firstName(), password: 'password', isAdmin: false}))
     ];
     for (const { username, password, isAdmin } of users) {
       const player = await authOrchestrators.register({username, password});

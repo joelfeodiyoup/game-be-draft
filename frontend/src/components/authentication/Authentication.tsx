@@ -4,6 +4,7 @@ import { FormField } from "../ui/form-field/FormField";
 import { useAuthentication } from "./useAuthentication";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { Button } from "../ui/button/Button";
+import { Stack } from "../ui/stack/Stack";
 
 export const Authentication = () => {
     const [username, setUsername] = useState('');
@@ -11,10 +12,13 @@ export const Authentication = () => {
 
     const {logoutMutation, loginMutation, createAccount} = useAuthentication();
 
-    const { isLoggedIn } = useAuthContext();
+    const { isLoggedIn, username: loggedInUsername } = useAuthContext();
 
     if (isLoggedIn) {
-        return <Button onClick={() => logoutMutation.mutate()}>log out</Button>
+        return <Stack>
+                <p>logged in as {loggedInUsername}</p>
+                <Button onClick={() => logoutMutation.mutate()}>log out</Button>
+            </Stack>
     }
 
     return <Tabs
