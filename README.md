@@ -79,3 +79,13 @@ ORMS:
 - dto objects (could be better)
 - db data seeding
 - slightly more complex migration, adding column with required field: backend/prisma/migrations/20260505082239_add_updated_at_to_game_rating/migration.sql
+
+**front end ui**
+
+![screenshot of FE ui](<documentation/Screenshot 2026-05-07 at 12.10.08.png>)
+
+**apm for be performance monitoring**
+
+![alt text](<documentation/apm/Screenshot 2026-05-07 at 09.28.07.png>)
+
+![alt text](<documentation/apm/Screenshot 2026-05-07 at 09.28.42.png>)
