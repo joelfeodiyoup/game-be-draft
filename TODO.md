@@ -48,13 +48,24 @@
 - ~~add comments to game reviews~~
 - ~~implement the worker/orchestrator thing~~
 
-## today
+### 05.06.2026
 
 - ~~fix refetch on modifying game rating~~
 - ~~add user info at top~~
 - ~~sort games alphabetically~~
 - ~~add modal for game and other things~~
 - ~~show some kind of mock 'game' when they start a game~~
+
+### 06.05.2026
+
+- ~~add APM~~
+
+## today
+
+
+
+## future
+
 - fix the calculated game ratings aggregated fields on game.
 - map game rating fields to data
 - paginate game reviews
@@ -63,9 +74,6 @@
 - add 'create scenario' functionality
 - further fix up dto objects.
 - create admin page to list all the users
-
-## future
-
 - auth middleware for every controller endpoint
 - integration tests
 - add rate limiting
