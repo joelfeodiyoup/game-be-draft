@@ -1,0 +1,21 @@
+{
+    "monitor": {
+      "menuEnabled": false
+    },
+    "dependencies": {
+      "menuEnabled": true
+    },
+    "archiveEnabled": true,
+    "tracking": {
+      "gaID": null
+    },
+    "search": {
+      "maxLookback": {
+        "label": "2 Days",
+        "value": "2d"
+      }
+    },
+    "banner": {
+      "text": "Game Backend Traces"
+    }
+  }

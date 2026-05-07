@@ -1,7 +1,7 @@
 import { useGamesCatalogue } from "./useGamesCatalogue";
 import styles from './GamesCatalogue.module.scss';
 import type { GamesListItem } from "@/types/api";
-import { useGameContext } from "@/contexts/GameContext";
+import { useGameContext } from "@/contexts/game-context/GameContext";
 import { Button } from "@/components/ui/button/Button";
 
 export const GamesCatalogue = () => {

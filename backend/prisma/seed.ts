@@ -1,4 +1,4 @@
-import prisma from '../src/databases/postgres/db';
+import { disconnectPrisma } from '../src/databases/postgres/db';
 import { disconnectMongo } from '../src/databases/mongodb/db';
 import { seedUsers } from './seed-data/users.seed';
 import { seedGames } from './seed-data/games';
@@ -44,6 +44,6 @@ main()
         process.exit(1);
     })
     .finally(async () => {
-        await prisma.$disconnect();
+        await disconnectPrisma();
         await disconnectMongo();
     });

@@ -1,4 +1,4 @@
-import prisma from '@/databases/postgres/db';
+import { prismaTransaction } from '@/databases/postgres/db';
 import { authOrchestrators } from '@/domains/auth/auth.orchestrator';
 import { AuthRole } from '@/domains/auth/auth.types';
 import { ErrorResponse } from 'common/api-responses';
@@ -16,7 +16,7 @@ const unauthorizedResponse = (c: Context) => {
 }
 
 export const requireAuth = createMiddleware(async (c, next) => {
-    return prisma.$transaction(async tx => {
+    return prismaTransaction(async tx => {
         const sessionId = await getCookie(c, 'sessionId');
         if (!sessionId) return unauthorizedResponse(c);
         const validSession = await authOrchestrators.getValidSession({sessionId});
@@ -27,7 +27,7 @@ export const requireAuth = createMiddleware(async (c, next) => {
 })
 
 export const requireRole = (role: AuthRole) => createMiddleware(async (c, next) => {
-    return prisma.$transaction(async tx => {
+    return prismaTransaction(async tx => {
         const sessionId = await getCookie(c, 'sessionId');
         if (!sessionId) return unauthorizedResponse(c);
         const validSession = await authOrchestrators.getValidSession({sessionId});

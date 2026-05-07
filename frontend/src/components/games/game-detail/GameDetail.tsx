@@ -5,10 +5,16 @@ import { useGameDetail } from "./useGameDetail";
 import { useGameRating } from "./useGameRating";
 import { Cluster } from "@/components/ui/cluster/Cluster";
 import { ClippedString } from "@/components/ui/clipped-string/ClippedString";
+import { useCallback } from "react";
+import { useModalContext } from "@/contexts/modal-context/ModalContext";
+import { GameInProgress } from "../game-in-progress/GameInProgress";
 
 export const GameDetail = () => {
-    const { scenariosQuery, game, createScenarioMutation, startGameSessionMutation} = useGameDetail();
+    const { scenariosQuery, game, createScenarioMutation} = useGameDetail();
     const gameRating = useGameRating({ game });
+
+    const {showModal} = useModalContext();
+    const startGame = useCallback(() => showModal(<GameInProgress />), [showModal]);
 
     if (!game) return <div>no game selected</div>
     if (scenariosQuery.isLoading) return <div>Loading...</div>
@@ -51,12 +57,13 @@ export const GameDetail = () => {
             <Button onClick={() => createScenarioMutation.mutate()}>create (admin only)</Button>
         </Section>
         <Section title="scenario list">
-            <ul>
+            <Button onClick={startGame}>start</Button>
+            {/* <ul>
                 {!scenariosQuery.data || scenariosQuery.data.length === 0 && <div>no scenarios</div>}
             {scenariosQuery.data?.map(scenario => (
                 <li key={scenario.id}>{scenario.title}<Button onClick={() => startGameSessionMutation.mutate({scenario})}>start</Button></li>
             ))}
-            </ul>
+            </ul> */}
         </Section>
         </Stack>
     </div>

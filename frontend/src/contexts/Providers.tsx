@@ -1,9 +1,10 @@
 import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { AuthProvider } from "./AuthProvider"
-import { GameContextProvider } from "./GameContextProvider"
-import { ErrorContextProvider } from "./ErrorContextProvider"
+import { AuthProvider } from "./auth-context/AuthProvider"
+import { GameContextProvider } from "./game-context/GameContextProvider"
+import { ErrorContextProvider } from "./error-context/ErrorContextProvider"
 import { useMemo } from "react"
-import { useErrorContext } from "./ErrorContext"
+import { useErrorContext } from "./error-context/ErrorContext"
+import { ModalContextProvider } from "./modal-context/ModalContextProvider"
 
 interface ApiError {
     status: number;
@@ -41,12 +42,14 @@ const QueryClientWithErrorHandling = ({children}: {children: React.ReactNode}) =
 
 export const Providers = ({children}: {children: React.ReactNode}) => {
     return <ErrorContextProvider> 
-        <QueryClientWithErrorHandling><AuthProvider>
-        
-        <GameContextProvider>
-        {children}
-        </GameContextProvider>
-    </AuthProvider>
+        <QueryClientWithErrorHandling>
+            <AuthProvider>
+                <GameContextProvider>
+                    <ModalContextProvider>
+                        {children}
+                    </ModalContextProvider>
+                </GameContextProvider>
+            </AuthProvider>
         </QueryClientWithErrorHandling>
-        </ErrorContextProvider>
+    </ErrorContextProvider>;
 }

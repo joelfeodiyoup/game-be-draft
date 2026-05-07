@@ -61,6 +61,18 @@ services:
       - "9000:9000"
     volumes:
       - clickhouse_data:/var/lib/clickhouse
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: game-jaeger
+    ports:
+      - "16686:16686" # jaeger UI
+      - "4318:4318" # OTLP HTTP receiver
+      - "4317:4317" # OTLP gRPC receiver
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+      - QUERY_UI_CONFIG=/etc/jaeger/ui-config.json
+    volumes:
+      - ./jaeger-ui-config.json:/etc/jaeger/ui-config.json:ro
 
 volumes:
   postgres_data:

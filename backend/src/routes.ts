@@ -5,7 +5,10 @@ import { cors } from "hono/cors";
 import { authRouter } from "./domains/auth/auth.controller";
 import { AppEnv } from "./domains/domains.types";
 import { gamesRouter } from "./domains/games/games.controller";
+import { tracingMiddleware } from "./middleware/tracing.middleware";
+import { abRouter } from "./domains/games/a-b.controller";
 
+export function registerApp() {
 const app = new OpenAPIHono<AppEnv>();
 
 app.use('/*', cors({
@@ -13,8 +16,12 @@ app.use('/*', cors({
     credentials: true,
 }))
 
+// Ensure OpenTelemetry context is preserved through Hono
+app.use('/*', tracingMiddleware)
+
 app.route('/auth', authRouter);
 app.route('/games', gamesRouter);
+app.route('/dev', abRouter);
 
 app.get('/', (c) => c.text('Game API running'));
 
@@ -53,8 +60,9 @@ app.get('/doc.json', (c) => {
     return c.json(doc);
 });
 
-app.get('/doc', Scalar({
-    spec: { url: '/doc.json' },
-}))
+    app.get('/doc', Scalar({
+        spec: { url: '/doc.json' },
+    }))
 
-export { openapiSpec, app }
+    return { openapiSpec, app }
+}

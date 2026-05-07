@@ -1,4 +1,4 @@
-import { useGameContext } from "@/contexts/GameContext";
+import { useGameContext } from "@/contexts/game-context/GameContext";
 import { api } from "@/lib/api";
 import type { Game } from "@/types/api";
 import { useMutation, useQuery } from "@tanstack/react-query";

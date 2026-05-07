@@ -11,6 +11,7 @@ import { commonResponses, createResponseType } from "common/api-responses";
 import { createTaggedRoute, RouteTag } from "common/route-helpers";
 import { gameRatingsRouter } from "./game-rating.controller";
 import { gameBaseSchema, gameDetailSchema } from "./games.schema";
+import { traceOperation } from "common/tracing-helpers";
 
 export const gamesRouter = new OpenAPIHono<AppEnv>();
 
@@ -30,11 +31,11 @@ gamesRouter.openapi(
         }),
       },
     }),
-    async (c) => {
+    async (c) => traceOperation('games.controller.getAll', async () => {
       const result = await gamesOrchestrators.getAll();
   
       return c.json(result, 200);
-    }
+    })
   );
 
 gamesRouter.openapi(
@@ -50,7 +51,6 @@ gamesRouter.openapi(
     }
   }),
   async c => {
-    console.log('hit the game endpoint...');
     const { gameId } = c.req.valid('param');
 
     const game = await gamesOrchestrators.get({gameId});

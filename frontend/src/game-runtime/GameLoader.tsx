@@ -1,4 +1,4 @@
-import { useGameContext } from "@/contexts/GameContext"
+import { useGameContext } from "@/contexts/game-context/GameContext"
 
 export const GameRuntime = () => {
     const {game} = useGameContext();

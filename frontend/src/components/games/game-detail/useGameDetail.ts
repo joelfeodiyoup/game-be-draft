@@ -1,5 +1,5 @@
-import { useErrorContext } from "@/contexts/ErrorContext";
-import { useGameContext } from "@/contexts/GameContext";
+import { useErrorContext } from "@/contexts/error-context/ErrorContext";
+import { useGameContext } from "@/contexts/game-context/GameContext";
 import { api } from "@/lib/api";
 import type { Scenario } from "@/types/api";
 import { useQuery, useMutation } from "@tanstack/react-query";

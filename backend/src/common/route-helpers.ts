@@ -11,4 +11,5 @@ export enum RouteTag {
     "Games" = 'Games',
     "Auth" = "Authentication",
     "GameRating" = "Game Rating",
+    "Dev" = "Dev",
 };

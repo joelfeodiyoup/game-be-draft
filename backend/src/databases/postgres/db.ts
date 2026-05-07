@@ -1,19 +1,60 @@
 import { PrismaClient } from '@prisma/client';
+import { traceOperation } from 'common/tracing-helpers';
+import { TxClient } from 'common/transaction.types';
 
 const prismaClientSingleton = () => {
-    return new PrismaClient();
+    const client = new PrismaClient({
+        // log: process.env.ENABLE_TRACING === 'true' ? ['query'] : [],
+    });
+
+    return client;
 }
 
-// declare global {
-//     var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
-// }
+type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
 
 declare const globalThis: {
-    prisma: ReturnType<typeof prismaClientSingleton> | undefined;
+    prisma: PrismaClientSingleton | undefined;
 } & typeof global;
 
-const prisma = globalThis.prisma ?? prismaClientSingleton();
+let prisma: PrismaClientSingleton | undefined;
 
-export default prisma;
+export function initializePrisma() {
+    console.log('initializing prisma');
+    if (!prisma) {
+        prisma = globalThis.prisma ?? prismaClientSingleton();
+        if (process.env.NODE_ENV !== 'production') {
+            globalThis.prisma = prisma;
+        }
+        process.on('SIGINT', async () => {
+            await disconnectPrisma();
+            process.exit(0);
+        });
+        process.on('SIGTERM', async () => {
+            await disconnectPrisma();
+            process.exit(0);
+        });
+    }
 
-if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
+    return prisma;
+}
+
+export function prismaTransaction<T>(fn: (tx: TxClient) => Promise<T>) {
+    if (!prisma) {
+        throw new Error('Prisma client not initialized. Call initializePrisma() first.');
+    }
+
+    return traceOperation(
+        'prisma.transaction',
+        async () => prisma!.$transaction(async tx => fn(tx)),
+        {
+            'db.system': 'postgresql',
+            'db.operation': 'transaction',
+        }
+    )
+}
+
+export function disconnectPrisma() {
+    if (prisma) {
+        return prisma.$disconnect();
+    }
+}

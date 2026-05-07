@@ -1,4 +1,5 @@
-import prisma from "@/databases/postgres/db";
+import { prismaTransaction } from "@/databases/postgres/db";
+import { traceOperation } from "common/tracing-helpers";
 import { Orchestrator } from "common/transaction.types";
 import { Game, Scenario } from "types";
 import { gameScenarioWorkers } from "workers/game-scenario.worker";
@@ -12,17 +13,19 @@ type GamesOrchestrators = {
 
 export const gamesOrchestrators: GamesOrchestrators = {
     getAll: async () => {
-        return prisma.$transaction(async tx => {
-            return gameWorkers.getGames(tx);
+        return traceOperation('games.orchestrator.getAll', async () => {
+            return prismaTransaction(async tx => {
+                return await gameWorkers.getAll(tx);
+            });
         });
     },
     get: async args => {
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             return gameWorkers.getGameById(tx, args);
         })
     },
     getScenarios: async (args) => {
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             return gameScenarioWorkers.getGameScenarios(tx, args);
         })
     }

@@ -61,3 +61,21 @@ ORMS:
 - redis - no ORM. ioredis.
 - clickhouse - no ORM (it's OLAP) - @clickhouse/client
 - IndexedDB - dexie.js
+
+## features
+
+- pagination of back end endpoints (not yet)
+- schema migrations
+- tanstack query
+- api documentation endpoint
+- controller -> orchestrator -> worker -> repository pattern
+- FE modal
+- authenticated endpoints
+- role based authentication
+- BE/FE type generation
+- relational db (postgres) , document db (mongodb)
+- FE query caching via tanstack
+- css variables (could be better)
+- dto objects (could be better)
+- db data seeding
+- slightly more complex migration, adding column with required field: backend/prisma/migrations/20260505082239_add_updated_at_to_game_rating/migration.sql

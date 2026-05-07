@@ -1,8 +1,7 @@
 import fs from 'fs';
-import { openapiSpec } from '../src/routes';
+import { registerApp  } from '../src/routes';
 
-console.log('hellooooo');
-console.log(openapiSpec);
+const { openapiSpec } = registerApp();
 fs.writeFileSync(
     '../shared/openapi.json',
     JSON.stringify(openapiSpec, null, 2)

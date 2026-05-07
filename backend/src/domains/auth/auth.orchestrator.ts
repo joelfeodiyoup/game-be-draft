@@ -2,7 +2,7 @@
 
 import { AuthRole, LoginCredentials } from "./auth.types";
 import { disallowInProduction } from "@/utils/environment-guards";
-import prisma from "@/databases/postgres/db";
+import { prismaTransaction } from "@/databases/postgres/db";
 import { Orchestrator } from "common/transaction.types";
 import { Player } from "types";
 import { playerWorkers } from "workers/player.worker";
@@ -27,7 +27,7 @@ type AuthOrchestrators = {
 export const authOrchestrators: AuthOrchestrators = {
     /** create new player with hashed password */
     register: async (credentials: LoginCredentials) => {
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             const player = await playerWorkers.create(tx, credentials);
             await authRoleWorkers.assign(tx, {playerId: player.id, role: 'USER'});
             
@@ -36,7 +36,7 @@ export const authOrchestrators: AuthOrchestrators = {
     }, 
     /** validates credentials, create session */
     login: async (credentials) => {
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             const player = await playerWorkers.isValid(tx, credentials)
             // if not, return some error, otherwise...
             if (!player) {
@@ -53,46 +53,46 @@ export const authOrchestrators: AuthOrchestrators = {
     },
     /** invalidate session */
     logout: async ({sessionId}) => {
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             return authSessionWorkers.expire(tx, {sessionId})
         })
     },
     /** check if session is valid and not expired */
     getValidSession: async ({sessionId}) => {
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             return authSessionWorkers.get(tx, {sessionId})
         })
     },
     /** extend session expiry */
     refreshSession: async ({sessionId}) => {
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             return authSessionWorkers.extend(tx, {sessionId});
         }) 
     },
     deleteAllUsers: async () => {
         disallowInProduction();
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             return await playerWorkers.deleteAll(tx, undefined);
         })
     },
     userHasRole: async ({playerId, role}) => {
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             return authRoleWorkers.userHasRole(tx, {playerId, role});
         })
     },
     assignRole: async ({ playerId, role}) => {
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             await authRoleWorkers.assign(tx, {playerId, role});
             return true;
         })
     },
     getUsers: async () => {
-        return await prisma.$transaction(async tx => {
+        return await prismaTransaction(async tx => {
             return await playerWorkers.getAll(tx);
         })
     },
     getUser: async (args) => {
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             const authSession = await authSessionWorkers.get(tx, args);
             if (!authSession) return null;
             return await playerWorkers.getById(tx, {userId: authSession.player_id});

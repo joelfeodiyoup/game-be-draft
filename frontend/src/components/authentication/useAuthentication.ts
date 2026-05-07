@@ -1,5 +1,5 @@
-import { useAuthContext } from "@/contexts/AuthContext";
-import { useErrorContext } from "@/contexts/ErrorContext";
+import { useAuthContext } from "@/contexts/auth-context/AuthContext";
+import { useErrorContext } from "@/contexts/error-context/ErrorContext";
 import { defaultFetchOptions } from "@/data/fetchOptions";
 import { api } from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

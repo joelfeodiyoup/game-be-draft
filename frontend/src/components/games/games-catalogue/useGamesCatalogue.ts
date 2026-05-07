@@ -1,4 +1,4 @@
-import { useGameContext } from "@/contexts/GameContext";
+import { useGameContext } from "@/contexts/game-context/GameContext";
 import { api } from "@/lib/api";
 import type { GamesListItem } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";

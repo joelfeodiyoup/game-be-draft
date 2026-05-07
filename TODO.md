@@ -37,7 +37,7 @@
 
 - ~~add game rating~~
 - ~~add some hono api documentation~~
-- ~~update my repository files to accept an optional client. That way, I can use prisma.$transaction(tx => { /* pass tx client to repository */})~~
+- ~~update my repository files to accept an optional client. That way, I can use prismaTransaction(tx => { /* pass tx client to repository */})~~
 - ~~add authentication thing to documentation endpoint~~
 
 ### 04.05.2026
@@ -53,13 +53,16 @@
 - ~~fix refetch on modifying game rating~~
 - ~~add user info at top~~
 - ~~sort games alphabetically~~
+- ~~add modal for game and other things~~
+- ~~show some kind of mock 'game' when they start a game~~
+- fix the calculated game ratings aggregated fields on game.
 - map game rating fields to data
 - paginate game reviews
 - add service to save game
-- show some kind of mock 'game' when they start a game
 - handle game state on FE
 - add 'create scenario' functionality
 - further fix up dto objects.
+- create admin page to list all the users
 
 ## future
 
@@ -76,3 +79,5 @@
 - figure out the best way to handle controller endpoints like /country/:countryId/games/:gameId/ratings/:ratingId etc
 - add jsonb for ACID and compare the two.
 - add static site for github display
+- deploy to aws
+- add sentiment analysis to reviews

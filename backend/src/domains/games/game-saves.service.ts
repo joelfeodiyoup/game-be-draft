@@ -1,9 +1,9 @@
-import prisma from "@/databases/postgres/db";
+import { prismaTransaction } from "@/databases/postgres/db";
 import { gameStateRepository } from "@/repositories/game-state.repository";
 import { createScenarioSaveRepository } from "@/repositories/scenario-save.repository";
 
 export async function getSavedGame({scenarioSaveId}: {scenarioSaveId: string}) {
-    return prisma.$transaction(async tx => {
+    return prismaTransaction(async tx => {
         const savedScenario = await createScenarioSaveRepository(tx).getSaveById({ whereId: { id: scenarioSaveId}});
         if (!savedScenario || !savedScenario.mongodb_state_id) {
             return null;

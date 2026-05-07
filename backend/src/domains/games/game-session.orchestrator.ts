@@ -1,4 +1,4 @@
-import prisma from "@/databases/postgres/db";
+import { prismaTransaction } from "@/databases/postgres/db";
 import { GameSession } from "@prisma/client";
 import { Orchestrator } from "common/transaction.types";
 import { authSessionWorkers } from "workers/auth-session.worker";
@@ -12,7 +12,7 @@ type GameSessionOrchestrators = {
 
 export const gameSessionOrchestrators: GameSessionOrchestrators = {
     startNewGame: async ({scenarioId, sessionId}) => {
-        return prisma.$transaction(async tx => {
+        return prismaTransaction(async tx => {
             const scenario = await gameScenarioWorkers.getGameScenario(tx, { scenarioId});
             if (!scenario) return null;
             // const game = await gameWorkers.getGameById(tx, {id: scenario?.meta.game_id});

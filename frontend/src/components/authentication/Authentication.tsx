@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Tabs } from "./Tabs";
 import { FormField } from "../ui/form-field/FormField";
 import { useAuthentication } from "./useAuthentication";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useAuthContext } from "@/contexts/auth-context/AuthContext";
 import { Button } from "../ui/button/Button";
 import { Stack } from "../ui/stack/Stack";
 

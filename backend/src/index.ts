@@ -1,21 +1,20 @@
-import { Hono } from "hono";
-import { cors } from 'hono/cors';
-import { authRouter } from "./domains/auth/auth.controller";
+import { registerTracing } from './tracing';
+
+import { initializePrisma } from './databases/postgres/db';
 import { serve } from "@hono/node-server";
 import { connectMongo } from './databases/mongodb/db';
-import { gamesRouter } from "./domains/games/games.controller";
-import { OpenAPIHono } from "@hono/zod-openapi";
-import { AppEnv } from "./domains/domains.types";
-import { Scalar } from "@scalar/hono-api-reference";
-import { RouteTag } from "common/route-helpers";
-import { app } from "routes";
+import { registerApp } from "routes";
+
 
 async function main() {
+    registerTracing();
+    const { app } = registerApp();
+    initializePrisma();
     await connectMongo();
 
     const port = 3000;
     console.log(`Server running on http://localhost:${port}`);
-    
+
     serve({
         fetch: app.fetch,
         port

@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { Seed } from "./seed.types";
-import prisma from "@/databases/postgres/db";
+import { prismaTransaction } from "@/databases/postgres/db";
 import { createGamesRepository } from "@/repositories/games.repository";
 
 const games: Prisma.GameCreateInput[] = [
@@ -20,12 +20,12 @@ export const seedGames: Seed = {
     // seed games
     const createdGames = [];
     for (const game of games) {
-      const createdGame = await prisma.game.create({ data: game });
+      const createdGame = await prismaTransaction(async tx => createGamesRepository(tx).create({ data: game }));
       createdGames.push(createdGame);
     };
   },
   delete: async function (): Promise<void> {
-    return prisma.$transaction(async tx => {
+    return prismaTransaction(async tx => {
         await createGamesRepository(tx).deleteAll();
     });
   },
